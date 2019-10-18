@@ -64,7 +64,7 @@ public class LoginController {
 		Session session=factory.getCurrentSession();
 		try {
 			session.beginTransaction();
-			Query logincheckquery=session.createQuery("from Professor where profid='"+id+"'");
+			Query logincheckquery=session.createQuery("from Professor where prfoid='"+id+"'");
 			List<Professor> proflist=logincheckquery.list();
 			if(proflist.size()==0)
 			{
