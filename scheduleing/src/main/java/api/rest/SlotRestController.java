@@ -44,12 +44,20 @@ public class SlotRestController {
 			else
 			{
 				Slot tempslot=slots.get(0);
+				String slotstatus=tempslot.getStatus();
 				System.out.println("here is slotid:"+tempslot.getSlotid()+"profid:"+tempslot.getProfid());
 				try {
 					
 					SQLQuery updateslotquery=session.createSQLQuery("update slot set profid=NULL,status=NULL where slotid='"+slotid+"'");
 					updateslotquery.executeUpdate();
 					updateslotquery.addEntity(Slot.class);
+					if(slotstatus.contains("going"))
+					{
+						System.out.println("hete to delete table");
+						String tablename="slot"+slotid;
+						SQLQuery droptablequery=session.createSQLQuery("drop table "+tablename);
+						droptablequery.executeUpdate();
+					}
 					tx.commit();
 					session.close();
 					Session session2=factory.openSession();
@@ -164,6 +172,10 @@ public class SlotRestController {
 			System.out.println("hey success");
 			SQLQuery updateslotquery=session.createSQLQuery("update slot set profid='"+profid+"',status='Ongoing' where slotid='"+slotid+"'");
 			updateslotquery.executeUpdate();
+			String tablename="slot"+slotid;
+			System.out.println("name of table:"+tablename);
+			SQLQuery createtablequery=session.createSQLQuery("create table "+tablename+"(studentid varchar(255) primary key,vote varchar(255))");
+			createtablequery.executeUpdate();
 			tx.commit();
 			session.close();
 			Session session2=factory.openSession();
