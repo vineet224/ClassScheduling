@@ -7,6 +7,7 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,16 +27,18 @@ public class SlotRestController {
 	public Slot slot_update(@PathVariable String slotid, @PathVariable String profid)
 	{
 		SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Slot.class).buildSessionFactory();
-		Session session=factory.getCurrentSession();
+		Session session=factory.openSession();
+		Slot updatedslot=new Slot();
 		try {
-			session.beginTransaction();
+				Transaction tx=session.beginTransaction();
 			System.out.println("I am saving");
 			SQLQuery cancelslotquery=session.createSQLQuery("select * from slot where slotid='"+slotid+"' and profid='"+profid+"'");
 			cancelslotquery.addEntity(Slot.class);
 			List<Slot> slots=cancelslotquery.list();
 			if(slots.size()==0)
 			{
-				session.getTransaction().commit();
+				tx.commit();
+				session.close();
 				return null;
 			}
 			else
@@ -44,18 +47,26 @@ public class SlotRestController {
 				System.out.println("here is slotid:"+tempslot.getSlotid()+"profid:"+tempslot.getProfid());
 				try {
 					
-					SQLQuery updateslotquery=session.createSQLQuery("update slot set profid=NULL,status='empty' where slotid='"+slotid+"'");
+					SQLQuery updateslotquery=session.createSQLQuery("update slot set profid=NULL,status=NULL where slotid='"+slotid+"'");
 					updateslotquery.executeUpdate();
 					updateslotquery.addEntity(Slot.class);
+					tx.commit();
+					session.close();
+					Session session2=factory.openSession();
+					Transaction tx2=session2.beginTransaction();
+					updatedslot=(Slot) session2.get(Slot.class,slotid);
+					System.out.println("hello slotid:"+updatedslot.getSlotid()+" profid:"+updatedslot.getProfid()+"status:"+updatedslot.getStatus());
+					tx2.commit();
+					session2.close();
 					System.out.println("here is result value:");
-					session.getTransaction().commit();
+
 				} 
 				catch(Exception e)
 				{
 					e.printStackTrace();
 					System.out.println("error in updating");
 				}
-				return tempslot;
+				return updatedslot;
 			}
 			
 		}
@@ -71,7 +82,7 @@ public class SlotRestController {
 		return null;
 	}
 	
-	@GetMapping("/Getslot")
+	@GetMapping("/Get")
 	public List<Slotinfo>  getslot()
 	{
 		SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Slot.class).addAnnotatedClass(Professor.class).buildSessionFactory();
@@ -89,6 +100,13 @@ public class SlotRestController {
 				String tempstatus=s.getStatus();
 				String tempsubjectid;
 				Slotinfo tempslotinfo=new Slotinfo();
+				if(tempprofid==null)
+				{
+					tempslotinfo.setSlotid(tempslotid);
+					slotsinfo.add(tempslotinfo);
+					continue;
+				}
+				System.out.println("hery too");
 				Query subjectgetquery=session.createQuery("from Professor where profid='"+tempprofid+"'");
 				Professor tempprof=(Professor) subjectgetquery.uniqueResult();
 				tempsubjectid=tempprof.getSubjectid();
@@ -113,7 +131,7 @@ public class SlotRestController {
 		return null;
 	}
 	
-	@GetMapping("/Saveslot")
+	@GetMapping("/Save")
 	public Slot saveslot(Slot slot)
 	{
 		SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Slot.class).buildSessionFactory();
@@ -134,5 +152,36 @@ public class SlotRestController {
 			System.out.println("All done");
 		}
 		return slot;
+	}
+	
+	@GetMapping(path = "/Update/{slotid}/{profid}")
+	public Slot update(@PathVariable String slotid, @PathVariable String profid)
+	{
+		SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Slot.class).addAnnotatedClass(Professor.class).buildSessionFactory();
+		Session session=factory.openSession();
+		try {
+			Transaction tx=session.beginTransaction();
+			System.out.println("hey success");
+			SQLQuery updateslotquery=session.createSQLQuery("update slot set profid='"+profid+"',status='Ongoing' where slotid='"+slotid+"'");
+			updateslotquery.executeUpdate();
+			tx.commit();
+			session.close();
+			Session session2=factory.openSession();
+			Transaction tx2=session2.beginTransaction();
+			Slot updatedslot=(Slot) session2.get(Slot.class,slotid);
+			tx2.commit();
+			session2.close();
+			return updatedslot;
+		}
+		catch(Exception e)
+		{
+			System.out.println("update error");
+			e.printStackTrace();
+		}
+		finally {
+			factory.close();
+			System.out.println("All done");
+		}
+		return null;
 	}
 }
