@@ -22,6 +22,7 @@ public class LoginController {
 	@GetMapping(path = "/Student/{id}/{password}")
 	public String loginstudent(@PathVariable String id, @PathVariable String password)
 	{
+		String invalid_str="isinvalid";
 		System.out.println("here is "+id+" "+password);
 		SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Student.class).buildSessionFactory();
 		Session session=factory.getCurrentSession();
@@ -32,7 +33,7 @@ public class LoginController {
 			if(studentlist.size()==0)
 			{
 				session.getTransaction().commit();
-				return "unvaild";
+				return invalid_str;
 			}
 			else
 			{
@@ -46,9 +47,12 @@ public class LoginController {
 					return "valid";
 				}
 				session.getTransaction().commit();
-				return "unvalid";
+				return invalid_str;
 			}
 			
+		}
+		catch(Exception e) {
+			return invalid_str;
 		}
 		finally {
 			factory.close();
@@ -59,6 +63,7 @@ public class LoginController {
 	@GetMapping(path = "/Professor/{id}/{password}")
 	public String loginprofessor(@PathVariable String id, @PathVariable String password)
 	{
+		String invalid_str="isinvalid";
 		System.out.println("here is "+id+" "+password);
 		SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Professor.class).buildSessionFactory();
 		Session session=factory.getCurrentSession();
@@ -69,7 +74,7 @@ public class LoginController {
 			if(proflist.size()==0)
 			{
 				session.getTransaction().commit();
-				return "unvaild";
+				return invalid_str;
 			}
 			else
 			{
@@ -85,9 +90,12 @@ public class LoginController {
 					return subjectid;
 				}
 				session.getTransaction().commit();
-				return "unvalid";
+				return invalid_str;
 			}
 			
+		}
+		catch(Exception e) {
+			return invalid_str;
 		}
 		finally {
 			factory.close();

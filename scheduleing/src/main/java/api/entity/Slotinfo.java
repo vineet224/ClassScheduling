@@ -1,17 +1,14 @@
 package api.entity;
 
-import java.sql.Time;
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
-public class Slot {
 
-	@Id
+public class Slotinfo {
+	
 	private String slotid;
 	private String profid;
+	private String subjectid;
 	private String status;
 	public String getSlotid() {
 		return slotid;
@@ -25,11 +22,18 @@ public class Slot {
 	public void setProfid(String profid) {
 		this.profid = profid;
 	}
+	public String getSubjectid() {
+		return subjectid;
+	}
+	public void setSubjectid(String subjectid) {
+		this.subjectid = subjectid;
+	}
 	public String getStatus() {
 		return status;
 	}
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
 	
 }

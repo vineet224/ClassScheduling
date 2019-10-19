@@ -9,14 +9,14 @@ import javax.persistence.Table;
 public class Professor {
 
 	@Id
-	private String prfoid;
+	private String profid;
 	private String subjectid;
 	private String password;
-	public String getPrfoid() {
-		return prfoid;
+	public String getProfid() {
+		return profid;
 	}
-	public void setPrfoid(String prfoid) {
-		this.prfoid = prfoid;
+	public void setProid(String profid) {
+		this.profid = profid;
 	}
 	public String getSubjectid() {
 		return subjectid;
