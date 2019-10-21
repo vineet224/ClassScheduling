@@ -44,13 +44,14 @@ public class VoteRestController {
 		}
 		catch(Exception e)
 		{
+			
 			e.printStackTrace();
+			return "error";
 		}
 		finally {
 			factory.close();
 			System.out.println("All done");
 		}
-		return "yeah";
 		
 	}
 }

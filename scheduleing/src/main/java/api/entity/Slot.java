@@ -13,6 +13,7 @@ public class Slot {
 	private String slotid;
 	private String profid;
 	private String status;
+	private String subjectid;
 	public String getSlotid() {
 		return slotid;
 	}
@@ -30,6 +31,12 @@ public class Slot {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getSubjectid() {
+		return subjectid;
+	}
+	public void setSubjectid(String subjectid) {
+		this.subjectid = subjectid;
 	}
 	
 }

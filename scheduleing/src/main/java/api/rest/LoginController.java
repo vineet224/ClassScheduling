@@ -64,15 +64,18 @@ public class LoginController {
 	public String loginprofessor(@PathVariable String id, @PathVariable String password)
 	{
 		String invalid_str="isinvalid";
+		id.trim();
+		password.trim();
 		System.out.println("here is "+id+" "+password);
 		SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Professor.class).buildSessionFactory();
 		Session session=factory.getCurrentSession();
 		try {
 			session.beginTransaction();
-			Query logincheckquery=session.createQuery("from Professor where prfoid='"+id+"'");
+			Query logincheckquery=session.createQuery("from Professor where profid='"+id+"'");
 			List<Professor> proflist=logincheckquery.list();
 			if(proflist.size()==0)
 			{
+				System.out.println("no record");
 				session.getTransaction().commit();
 				return invalid_str;
 			}
@@ -82,12 +85,13 @@ public class LoginController {
 				String userpassword;
 				String subjectid;
 				user=proflist.get(0);
-				subjectid=user.getSubjectid();
+				
 				userpassword=user.getPassword();
+				System.out.println(password+"  "+userpassword);
 				if(userpassword.contentEquals(password))
 				{
 					session.getTransaction().commit();
-					return subjectid;
+					return "valid";
 				}
 				session.getTransaction().commit();
 				return invalid_str;
@@ -95,6 +99,7 @@ public class LoginController {
 			
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			return invalid_str;
 		}
 		finally {

@@ -10,7 +10,6 @@ public class Professor {
 
 	@Id
 	private String profid;
-	private String subjectid;
 	private String password;
 	public String getProfid() {
 		return profid;
@@ -18,12 +17,7 @@ public class Professor {
 	public void setProid(String profid) {
 		this.profid = profid;
 	}
-	public String getSubjectid() {
-		return subjectid;
-	}
-	public void setSubjectid(String subjectid) {
-		this.subjectid = subjectid;
-	}
+	
 	public String getPassword() {
 		return password;
 	}
