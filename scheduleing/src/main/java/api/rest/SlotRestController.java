@@ -169,13 +169,20 @@ public class SlotRestController {
 	}
 	
 	@GetMapping(path = "/Update/{slotid}/{profid}/{subjectid}")
-	public Slot update(@PathVariable String slotid, @PathVariable String profid,@PathVariable String subjectid)
+	public String update(@PathVariable String slotid, @PathVariable String profid,@PathVariable String subjectid)
 	{
 		SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Slot.class).addAnnotatedClass(Professor.class).buildSessionFactory();
 		Session session=factory.openSession();
 		try {
 			Transaction tx=session.beginTransaction();
 			System.out.println("hey success");
+			SQLQuery checkprofsubjectquery=session.createSQLQuery("select * from profsubject where profid='"+profid+"' and subjectid='"+subjectid+"'");
+			List<Object[]> proflist=checkprofsubjectquery.list(); 
+			if(proflist.size()==0)
+			{
+				System.out.println("here no record for prof and subject");
+				return "invalid";
+			}
 			SQLQuery updateslotquery=session.createSQLQuery("update slot set profid='"+profid+"',status='ongoing',subjectid='"+subjectid+"' where slotid='"+slotid+"'");
 			updateslotquery.executeUpdate();
 			String tablename="slot"+slotid;
@@ -189,17 +196,18 @@ public class SlotRestController {
 			Slot updatedslot=(Slot) session2.get(Slot.class,slotid);
 			tx2.commit();
 			session2.close();
-			return updatedslot;
+			return "success";
 		}
 		catch(Exception e)
 		{
+			
 			System.out.println("update error");
 			e.printStackTrace();
+			return "invalid";
 		}
 		finally {
 			factory.close();
 			System.out.println("All done");
 		}
-		return null;
 	}
 }

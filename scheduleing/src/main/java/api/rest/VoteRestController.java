@@ -38,7 +38,7 @@ public class VoteRestController {
 				voteinsertquery.executeUpdate();
 				session.getTransaction().commit();
 				session.close();
-				return "success";
+				return "valid";
 			}
 			
 		}
