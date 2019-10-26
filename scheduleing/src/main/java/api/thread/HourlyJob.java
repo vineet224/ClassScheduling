@@ -707,17 +707,553 @@ public class HourlyJob implements Runnable{
 		}
 	}
 	
-	public void fifthslotscheduling(String firstslotid,String secondslotid)
+	public void fifthslotscheduling(String firstslotid,String secondslotid,String thirdslotid)
 	{
 		System.out.println("slotid is:"+firstslotid);
 		SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Slot.class).buildSessionFactory();
 		Session session=factory.openSession();
 		String firststatus;
 		String firstprofid;
+		String firstsubjectid;
 		String secondstatus;
 		String secondprofid;
-		String firstsubjectid;
 		String secondsubjectid;
-		int firstacceptvotes = 0,firstdeclinevotes=0,secondacceptvotes=0,seconddeclinevotes=0;
+		String thirdstatus;
+		String thirdprofid;
+		String thirdsubjectid;
+		int firstacceptvotes = 0,firstdeclinevotes=0,secondacceptvotes=0,seconddeclinevotes=0,thirdacceptvotes=0,thirddeclinevotes=0;
+		try {
+			Transaction tx= session.beginTransaction();
+			System.out.println("hey success");
+			Slot firstslot=(Slot) session.get(Slot.class,firstslotid);	
+			Slot secondslot=(Slot) session.get(Slot.class, secondslotid);
+			Slot thirdslot=(Slot) session.get(Slot.class, thirdslotid);
+			System.out.println("profid:"+firstslot.getProfid()+" status:"+firstslot.getStatus()+" ");
+			System.out.println("profid:"+secondslot.getProfid()+" status:"+secondslot.getStatus()+" ");
+			System.out.println("profid:"+thirdslot.getProfid()+" status:"+thirdslot.getStatus()+" ");
+			firststatus=firstslot.getStatus();
+			firstprofid=firstslot.getProfid();
+			firstsubjectid=firstslot.getSubjectid();
+			secondprofid=secondslot.getProfid();
+			secondstatus=secondslot.getStatus();
+			secondsubjectid=secondslot.getSubjectid();
+			thirdstatus=thirdslot.getStatus();
+			thirdprofid=thirdslot.getProfid();
+			thirdsubjectid=thirdslot.getSubjectid();
+			
+			if(firstprofid!=null && firststatus.contentEquals("ongoing"))
+			{
+				System.out.println("status is ongoing");
+				String tablename="slot"+firstslotid;
+				SQLQuery getvotequery=session.createSQLQuery("select * from "+tablename+" where vote='yes'");
+				List accepters=getvotequery.list();
+				firstacceptvotes=accepters.size();
+				SQLQuery getvotequery2=session.createSQLQuery("select * from "+tablename+" where vote='no'");
+				List decliners=getvotequery2.list();
+				firstdeclinevotes=decliners.size();
+				System.out.println("accept:"+firstacceptvotes+"decline"+firstdeclinevotes);
+			}
+			if(secondprofid!=null && secondstatus.contentEquals("ongoing"))
+			{
+				System.out.println("status is ongoing");
+				String tablename="slot"+secondslotid;
+				SQLQuery getvotequery=session.createSQLQuery("select * from "+tablename+" where vote='yes'");
+				List accepters=getvotequery.list();
+				secondacceptvotes=accepters.size();
+				SQLQuery getvotequery2=session.createSQLQuery("select * from "+tablename+" where vote='no'");
+				List decliners=getvotequery2.list();
+				seconddeclinevotes=decliners.size();
+				System.out.println("saccept:"+secondacceptvotes+"sdecline"+seconddeclinevotes);
+			}
+			if(thirdprofid!=null && thirdstatus.contentEquals("ongoing"))
+			{
+				System.out.println("status is ongoing");
+				String tablename="slot"+thirdslotid;
+				SQLQuery getvotequery=session.createSQLQuery("select * from "+tablename+" where vote='yes'");
+				List accepters=getvotequery.list();
+				thirdacceptvotes=accepters.size();
+				SQLQuery getvotequery2=session.createSQLQuery("select * from "+tablename+" where vote='no'");
+				List decliners=getvotequery2.list();
+				thirddeclinevotes=decliners.size();
+				System.out.println("accept:"+firstacceptvotes+"decline"+firstdeclinevotes);
+			}
+			//main if else logic
+			if(firststatus==null)
+			{
+				//do nothing
+			}
+			else if(firststatus!=null && secondstatus==null && thirdstatus==null)
+			{
+				if(firststatus.contentEquals("filled"))
+				{
+					System.out.println("here in this in 1 func3");
+					// send notification of 1 hr
+				}
+				else if(firststatus.contentEquals("ongoing"))
+				{
+					String tablename="slot"+firstslotid;
+					if(firstacceptvotes>firstdeclinevotes)
+					{
+						SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
+						addquery.executeUpdate();
+						SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename);
+						deltablequery.executeUpdate();
+						System.out.println("here in this in 2 func1");
+						//send notification of 1 hr class
+					}
+					else
+					{
+						SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+firstslotid+"'");
+						deletequery.executeUpdate();
+						SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename);
+						deltablequery.executeUpdate();
+						System.out.println("here in this in 3 func1");
+						//send notification for cancelling ongoing class
+					}
+				}
+				else
+				{
+					System.out.println("unexpected else 4 in func3");
+				}
+			}
+			else if(firststatus!=null && secondstatus!=null && thirdstatus==null)
+			{
+				if(firstprofid.contentEquals(secondprofid) && firstsubjectid.contentEquals(secondsubjectid))
+				{
+					if(firststatus.contentEquals("filled") && secondstatus.contentEquals("filled"))
+					{
+						//second notification for 2 hrs
+					}
+					else if(firststatus.contentEquals("filled") && secondstatus.contentEquals("ongoing"))
+					{
+						if(secondacceptvotes>seconddeclinevotes)
+						{
+							String tablename="slot"+secondslotid;
+							SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+secondslotid+"'");
+							addquery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename);
+							deltablequery.executeUpdate();
+							System.out.println("here in this in 6 func1");
+							//send notification for 2 hr
+						}
+						else
+						{
+							System.out.println("here in this in 7 func1");
+							//send notification for 1 hr class
+						}
+					}
+					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("filled"))
+					{
+						String tablename="slot"+firstslotid;
+						if(firstacceptvotes>firstdeclinevotes)
+						{
+							SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
+							addquery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename);
+							deltablequery.executeUpdate();
+							System.out.println("here in this in 8 func1");
+							//send notification of 2 hr class
+						}
+						else
+						{
+							SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+firstslotid+"'");
+							deletequery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename);
+							deltablequery.executeUpdate();
+							System.out.println("here in this in 9 func1");
+							//send notification for cancelling ongoing class
+						}
+					}
+					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("ongoing"))
+					{
+						String tablename1="slot"+firstslotid;
+						if(firstacceptvotes>firstdeclinevotes)
+						{
+							SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
+							addquery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
+							deltablequery.executeUpdate();
+							if(secondacceptvotes>seconddeclinevotes)
+							{
+								String tablename2="slot"+secondslotid;
+								SQLQuery addquery2=session.createSQLQuery("update slot set status='filled' where slotid='"+secondslotid+"'");
+								addquery2.executeUpdate();
+								SQLQuery deltablequery2=session.createSQLQuery("drop table "+tablename2);
+								deltablequery2.executeUpdate();
+								System.out.println("here in this in 10 func1");
+								// notification for 2 hr
+							}
+							else
+							{
+								System.out.println("here in this in 11 func1");
+								//notification for 1 hr
+							}
+						}
+						else
+						{
+							SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+firstslotid+"'");
+							deletequery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
+							deltablequery.executeUpdate();
+							System.out.println("here in this in 12 func1");
+							//send notification for cancelling ongoing class
+						}
+					}
+					else
+					{
+						//unexpected
+					}
+				}
+				else
+				{
+					if(firststatus.contentEquals("filled"))
+					{
+						System.out.println("here in this in 1 func3");
+						// send notification of 1 hr
+					}
+					else if(firststatus.contentEquals("ongoing"))
+					{
+						String tablename="slot"+firstslotid;
+						if(firstacceptvotes>firstdeclinevotes)
+						{
+							SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
+							addquery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename);
+							deltablequery.executeUpdate();
+							System.out.println("here in this in 2 func1");
+							//send notification of 1 hr class
+						}
+						else
+						{
+							SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+firstslotid+"'");
+							deletequery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename);
+							deltablequery.executeUpdate();
+							System.out.println("here in this in 3 func1");
+							//send notification for cancelling ongoing class
+						}
+					}
+					else
+					{
+						System.out.println("unexpected else 4 in func3");
+					}
+				}
+			}
+			else if(firststatus!=null && secondstatus!=null && thirdstatus!=null)
+			{
+				if(firstprofid.contentEquals(secondprofid) && firstsubjectid.contentEquals(secondsubjectid) && thirdprofid.contentEquals(secondprofid) && thirdsubjectid.contentEquals(secondsubjectid))
+				{
+					if(firststatus.contentEquals("filled") && secondstatus.contentEquals("filled") && thirdstatus.contentEquals("filled"))
+					{
+						//send notificatio for 3 hr
+					}
+					else if(firststatus.contentEquals("filled") && secondstatus.contentEquals("filled") && thirdstatus.contentEquals("ongoing"))
+					{
+						if(thirdacceptvotes>thirddeclinevotes)
+						{
+							String tablename3="slot"+thirdslotid;
+							SQLQuery addquery2=session.createSQLQuery("update slot set status='filled' where slotid='"+thirdslotid+"'");
+							addquery2.executeUpdate();
+							SQLQuery deltablequery2=session.createSQLQuery("drop table "+tablename3);
+							deltablequery2.executeUpdate();
+							System.out.println("here in this in 10 func1");
+							// notification for 3 hr
+						}
+						else
+						{
+							System.out.println("here in this in 11 func1");
+							//notification for 2 hr
+						}
+					}
+					else if(firststatus.contentEquals("filled") && secondstatus.contentEquals("ongoing") && thirdstatus.contentEquals("filled"))
+					{
+						if(secondacceptvotes>seconddeclinevotes)
+						{
+							String tablename2="slot"+secondslotid;
+							SQLQuery addquery2=session.createSQLQuery("update slot set status='filled' where slotid='"+secondslotid+"'");
+							addquery2.executeUpdate();
+							SQLQuery deltablequery2=session.createSQLQuery("drop table "+tablename2);
+							deltablequery2.executeUpdate();
+							System.out.println("here in this in 10 func1");
+							// notification for 3 hr
+						}
+						else
+						{
+							System.out.println("here in this in 11 func1");
+							//notification for 1 hr
+						}
+					}
+					else if(firststatus.contentEquals("filled") && secondstatus.contentEquals("ongoing") && thirdstatus.contentEquals("ongoing"))
+					{
+						if(secondacceptvotes>seconddeclinevotes)
+						{
+							String tablename2="slot"+secondslotid;
+							SQLQuery addquery2=session.createSQLQuery("update slot set status='filled' where slotid='"+secondslotid+"'");
+							addquery2.executeUpdate();
+							SQLQuery deltablequery2=session.createSQLQuery("drop table "+tablename2);
+							deltablequery2.executeUpdate();
+							if(thirdacceptvotes>thirddeclinevotes)
+							{
+								String tablename3="slot"+thirdslotid;
+								SQLQuery addquery3=session.createSQLQuery("update slot set status='filled' where slotid='"+thirdslotid+"'");
+								addquery3.executeUpdate();
+								SQLQuery deltablequery3=session.createSQLQuery("drop table "+tablename3);
+								deltablequery3.executeUpdate();
+								//send notification for 3 hr 
+							}
+							else
+							{
+								//send notification for 2 hr f s
+							}
+						}
+						else
+						{
+							//notfification for 1 hr
+						}
+					}
+					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("filled") && thirdstatus.contentEquals("filled"))
+					{
+						String tablename1="slot"+firstslotid;
+						if(firstacceptvotes>firstdeclinevotes)
+						{
+							SQLQuery addquery1=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
+							addquery1.executeUpdate();
+							SQLQuery deltablequery1=session.createSQLQuery("drop table "+tablename1);
+							deltablequery1.executeUpdate();
+							//notification for 3 hr class
+						}
+						else
+						{
+							SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+firstslotid+"'");
+							deletequery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
+							deltablequery.executeUpdate();
+							//notifiaction for cancelling class
+						}
+					}
+					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("filled") && thirdstatus.contentEquals("ongoing"))
+					{
+						String tablename1="slot"+firstslotid;
+						if(firstacceptvotes>firstdeclinevotes)
+						{
+							SQLQuery addquery1=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
+							addquery1.executeUpdate();
+							SQLQuery deltablequery1=session.createSQLQuery("drop table "+tablename1);
+							deltablequery1.executeUpdate();
+							if(thirdacceptvotes>thirddeclinevotes)
+							{
+								String tablename3="slot"+thirdslotid;
+								SQLQuery addquery2=session.createSQLQuery("update slot set status='filled' where slotid='"+thirdslotid+"'");
+								addquery2.executeUpdate();
+								SQLQuery deltablequery2=session.createSQLQuery("drop table "+tablename3);
+								deltablequery2.executeUpdate();
+								//send notification for 3 hr
+							}
+							else
+							{
+								//send notify for 2 hr f s
+							}
+						}
+						else
+						{
+							SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+firstslotid+"'");
+							deletequery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
+							deltablequery.executeUpdate();
+							//notifiaction for cancelling class
+						}
+					}
+					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("ongoing") && thirdstatus.contentEquals("filled"))
+					{
+						String tablename1="slot"+firstslotid;
+						if(firstacceptvotes>firstdeclinevotes)
+						{
+							SQLQuery addquery1=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
+							addquery1.executeUpdate();
+							SQLQuery deltablequery1=session.createSQLQuery("drop table "+tablename1);
+							deltablequery1.executeUpdate();
+							if(secondacceptvotes>seconddeclinevotes)
+							{
+								String tablename2="slot"+secondslotid;
+								SQLQuery addquery2=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
+								addquery2.executeUpdate();
+								SQLQuery deltablequery2=session.createSQLQuery("drop table "+tablename2);
+								deltablequery2.executeUpdate();
+								//send notify for 3 hr
+							}
+							else
+							{
+								// send notify for 1 hr
+							}
+						}
+						else
+						{
+							SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+firstslotid+"'");
+							deletequery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
+							deltablequery.executeUpdate();
+							//notifiaction for cancelling class
+						}
+					}
+					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("ongoing") && thirdstatus.contentEquals("ongoing"))
+					{
+						String tablename1="slot"+firstslotid;
+						if(firstacceptvotes>firstdeclinevotes)
+						{
+							SQLQuery addquery1=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
+							addquery1.executeUpdate();
+							SQLQuery deltablequery1=session.createSQLQuery("drop table "+tablename1);
+							deltablequery1.executeUpdate();
+							//notification for 3 hr class
+						}
+						else
+						{
+							SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+firstslotid+"'");
+							deletequery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
+							deltablequery.executeUpdate();
+							//notifiaction for cancelling class
+						}
+					}
+					else
+					{
+						//unexpected
+					}
+				}
+				else if(firstprofid.contentEquals(secondprofid) && firstsubjectid.contentEquals(secondsubjectid) && ( !thirdprofid.contentEquals(secondprofid) || !thirdsubjectid.contentEquals(secondsubjectid)))
+				{
+					if(firststatus.contentEquals("filled") && secondstatus.contentEquals("filled"))
+					{
+						//second notification for 2 hrs
+					}
+					else if(firststatus.contentEquals("filled") && secondstatus.contentEquals("ongoing"))
+					{
+						if(secondacceptvotes>seconddeclinevotes)
+						{
+							String tablename="slot"+secondslotid;
+							SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+secondslotid+"'");
+							addquery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename);
+							deltablequery.executeUpdate();
+							System.out.println("here in this in 6 func1");
+							//send notification for 2 hr
+						}
+						else
+						{
+							System.out.println("here in this in 7 func1");
+							//send notification for 1 hr class
+						}
+					}
+					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("filled"))
+					{
+						String tablename="slot"+firstslotid;
+						if(firstacceptvotes>firstdeclinevotes)
+						{
+							SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
+							addquery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename);
+							deltablequery.executeUpdate();
+							System.out.println("here in this in 8 func1");
+							//send notification of 2 hr class
+						}
+						else
+						{
+							SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+firstslotid+"'");
+							deletequery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename);
+							deltablequery.executeUpdate();
+							System.out.println("here in this in 9 func1");
+							//send notification for cancelling ongoing class
+						}
+					}
+					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("ongoing"))
+					{
+						String tablename1="slot"+firstslotid;
+						if(firstacceptvotes>firstdeclinevotes)
+						{
+							SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
+							addquery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
+							deltablequery.executeUpdate();
+							if(secondacceptvotes>seconddeclinevotes)
+							{
+								String tablename2="slot"+secondslotid;
+								SQLQuery addquery2=session.createSQLQuery("update slot set status='filled' where slotid='"+secondslotid+"'");
+								addquery2.executeUpdate();
+								SQLQuery deltablequery2=session.createSQLQuery("drop table "+tablename2);
+								deltablequery.executeUpdate();
+								System.out.println("here in this in 10 func1");
+								// notification for 2 hr
+							}
+							else
+							{
+								System.out.println("here in this in 11 func1");
+								//notification for 1 hr
+							}
+						}
+						else
+						{
+							SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+firstslotid+"'");
+							deletequery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
+							deltablequery.executeUpdate();
+							System.out.println("here in this in 12 func1");
+							//send notification for cancelling ongoing class
+						}
+					}
+					else
+					{
+						//unexpected
+					}
+				}
+				else
+				{
+					if(firststatus.contentEquals("filled"))
+					{
+						System.out.println("here in this in 1 func3");
+						// send notification of 1 hr
+					}
+					else if(firststatus.contentEquals("ongoing"))
+					{
+						String tablename="slot"+firstslotid;
+						if(firstacceptvotes>firstdeclinevotes)
+						{
+							SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
+							addquery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename);
+							deltablequery.executeUpdate();
+							System.out.println("here in this in 2 func1");
+							//send notification of 1 hr class
+						}
+						else
+						{
+							SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+firstslotid+"'");
+							deletequery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename);
+							deltablequery.executeUpdate();
+							System.out.println("here in this in 3 func1");
+							//send notification for cancelling ongoing class
+						}
+					}
+					else
+					{
+						System.out.println("unexpected else 4 in func3");
+					}
+				}
+			}
+			else
+			{
+				//unexpected
+			}
+		}
+		catch(Exception e)
+		{
+			
+		}
+		finally
+		{
+			factory.close();
+			System.out.println("All done");
+		}
 	}
 }
