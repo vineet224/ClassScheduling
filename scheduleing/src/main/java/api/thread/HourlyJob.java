@@ -1104,7 +1104,30 @@ public class HourlyJob implements Runnable{
 							addquery1.executeUpdate();
 							SQLQuery deltablequery1=session.createSQLQuery("drop table "+tablename1);
 							deltablequery1.executeUpdate();
-							//notification for 3 hr class
+							if(secondacceptvotes>seconddeclinevotes)
+							{
+								String tablename2="slot"+secondslotid;
+								SQLQuery addquery2=session.createSQLQuery("update slot set status='filled' where slotid='"+secondslotid+"'");
+								addquery2.executeUpdate();
+								SQLQuery deltablequery2=session.createSQLQuery("drop table "+tablename2);
+								deltablequery2.executeUpdate();
+								if(thirdacceptvotes>thirddeclinevotes)
+								{
+									String tablename3="slot"+thirdslotid;
+									SQLQuery addquery3=session.createSQLQuery("update slot set status='filled' where slotid='"+thirdslotid+"'");
+									addquery3.executeUpdate();
+									SQLQuery deltablequery3=session.createSQLQuery("drop table "+tablename3);
+									deltablequery3.executeUpdate();
+								}
+								else
+								{
+									//notify for 2 hr
+								}
+							}
+							else
+							{
+								//notify for 1 hr
+							}
 						}
 						else
 						{
