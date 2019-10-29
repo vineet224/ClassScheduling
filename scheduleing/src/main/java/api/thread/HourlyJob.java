@@ -28,7 +28,7 @@ public class HourlyJob implements Runnable{
 		String Time5="13:00:00";
 		String Time6="14:00:00";
 		String Time7="15:00:00";
-		String temptime="01:05:00";
+		String temptime="17:09:10";
 		String CurrentTime;
 		int Currentday;
 		System.out.println("Job trigged by scheduler");
@@ -125,6 +125,7 @@ public class HourlyJob implements Runnable{
         	//tuesday
         	if(CurrentTime.compareTo(temptime)==0)
         	{
+        		System.out.println("going here");
         		firstslotscheduleing("sun5","sun6");
         	}
         	if(CurrentTime.compareTo(Time2)==0)
@@ -280,73 +281,7 @@ public class HourlyJob implements Runnable{
         		
         	}
         }
-		/*if(CurrentTime.contentEquals(temptime))
-		{
-			
-			
-			SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Slot.class).buildSessionFactory();
-			Session session=factory.openSession();
-			String status;
-			String profid;
-			try {
-				Transaction tx=session.beginTransaction();
-				System.out.println("hey here to get slot info");
-				Slot slot1=(Slot) session.get(Slot.class,slotid1);
-				System.out.println("profid:"+slot1.getProfid()+" status:"+slot1.getStatus()+" ");
-				status=slot1.getStatus();
-				profid=slot1.getProfid();
-				if(profid==null)
-				{
-					System.out.println("do nothing status empty");
-				}
-				else if(status.contentEquals("filled"))
-				{
-					//send notification for filled
-					System.out.println("here status is filled");
-				}
-				else if(status.contentEquals("ongoing"))
-				{
-					System.out.println("status is ongoing");
-					String tablename="slot"+slotid1;
-					int acceptvote,declinevote;
-					SQLQuery getvotequery=session.createSQLQuery("select * from "+tablename+" where vote='yes'");
-					List accepters=getvotequery.list();
-					acceptvote=accepters.size();
-					SQLQuery getvotequery2=session.createSQLQuery("select * from "+tablename+" where vote='no'");
-					List decliners=getvotequery2.list();
-					declinevote=decliners.size();
-					if(acceptvote>declinevote)
-					{
-						SQLQuery addquery=session.createSQLQuery("update slot set profid='"+profid+"',status='filled' where slotid='"+slotid1+"'");
-						addquery.executeUpdate();
-						//send notification for scheduling ongoing class
-					}
-					else
-					{
-						SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL where slotid='"+slotid1+"'");
-						deletequery.executeUpdate();
-						//send notification for cancelling ongoing class
-					}
-					SQLQuery deletevotequery=session.createSQLQuery("drop table "+tablename);
-					deletevotequery.executeUpdate();
-				}
-				else
-				{
-					System.out.println("status is empty");
-					//do nothing case where no class is schedule in this slot
-				}
-				tx.commit();
-				session.close();
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-			finally {
-				factory.close();
-				System.out.println("All done");
-			}
-		}*/
+		
 	}
 
 	public void firstslotscheduleing(String firstslotid,String secondslotid)
@@ -413,11 +348,14 @@ public class HourlyJob implements Runnable{
 				}
 				else if(firststatus.contentEquals("ongoing"))
 				{
+					String tablename1="slot"+firstslotid;
 					if(firstacceptvotes>firstdeclinevotes)
 					{
 						SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
 						addquery.executeUpdate();
 						System.out.println("here in this in 2 func1");
+						SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
+						deltablequery.executeUpdate();
 						//send notification of 1 hr class
 					}
 					else
@@ -425,6 +363,8 @@ public class HourlyJob implements Runnable{
 						SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+firstslotid+"'");
 						deletequery.executeUpdate();
 						System.out.println("here in this in 3 func1");
+						SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
+						deltablequery.executeUpdate();
 						//send notification for cancelling ongoing class
 					}
 				}
@@ -446,8 +386,11 @@ public class HourlyJob implements Runnable{
 					{
 						if(secondacceptvotes>seconddeclinevotes)
 						{
+							String tablename2="slot"+secondslotid;
 							SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+secondslotid+"'");
 							addquery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename2);
+							deltablequery.executeUpdate();
 							System.out.println("here in this in 6 func1");
 							//send notification for 2 hr
 						}
@@ -462,11 +405,14 @@ public class HourlyJob implements Runnable{
 					}
 					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("filled"))
 					{
+						String tablename1="slot"+firstslotid;
 						if(firstacceptvotes>firstdeclinevotes)
 						{
 							SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
 							addquery.executeUpdate();
 							System.out.println("here in this in 8 func1");
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
+							deltablequery.executeUpdate();
 							//send notification of 2 hr class
 						}
 						else
@@ -474,19 +420,28 @@ public class HourlyJob implements Runnable{
 							SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+firstslotid+"'");
 							deletequery.executeUpdate();
 							System.out.println("here in this in 9 func1");
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
+							deltablequery.executeUpdate();
 							//send notification for cancelling ongoing class
 						}
 					}
 					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("ongoing"))
 					{
+						String tablename1="slot"+firstslotid;
 						if(firstacceptvotes>firstdeclinevotes)
 						{
+							
 							SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
 							addquery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
+							deltablequery.executeUpdate();
 							if(secondacceptvotes>seconddeclinevotes)
 							{
+								String tablename2="slot"+secondslotid;
 								SQLQuery addquery2=session.createSQLQuery("update slot set status='filled' where slotid='"+secondslotid+"'");
 								addquery2.executeUpdate();
+								SQLQuery deltablequery2=session.createSQLQuery("drop table "+tablename2);
+								deltablequery2.executeUpdate();
 								System.out.println("here in this in 10 func1");
 								// notification for 2 hr
 							}
@@ -502,6 +457,8 @@ public class HourlyJob implements Runnable{
 						{
 							SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+firstslotid+"'");
 							deletequery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
+							deltablequery.executeUpdate();
 							System.out.println("here in this in 12 func1");
 							//send notification for cancelling ongoing class
 						}
@@ -611,10 +568,13 @@ public class HourlyJob implements Runnable{
 				}
 				else if(secondstatus.contentEquals("ongoing"))
 				{
+					String tablename2="slot"+secondslotid;
 					if(secondacceptvotes>seconddeclinevotes)
 					{
 						SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+secondslotid+"'");
 						addquery.executeUpdate();
+						SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename2);
+						deltablequery.executeUpdate();
 						System.out.println("here in this in 3 func1");
 						//send notification for 1 hr
 					}
@@ -622,6 +582,8 @@ public class HourlyJob implements Runnable{
 					{
 						SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+secondslotid+"'");
 						deletequery.executeUpdate();
+						SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename2);
+						deltablequery.executeUpdate();
 						System.out.println("here in this in 4 func1");
 						//send notification for cancellation
 					}
@@ -642,10 +604,13 @@ public class HourlyJob implements Runnable{
 					}
 					else if(secondstatus.contentEquals("ongoing") && firststatus.contentEquals("filled"))
 					{
+						String tablename2="slot"+secondslotid;
 						if(secondacceptvotes>seconddeclinevotes)
 						{
 							SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+secondslotid+"'");
 							addquery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename2);
+							deltablequery.executeUpdate();
 							System.out.println("here in this in 7 func1");
 							//send notification for 1 hr
 						}
@@ -653,6 +618,8 @@ public class HourlyJob implements Runnable{
 						{
 							SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+secondslotid+"'");
 							deletequery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename2);
+							deltablequery.executeUpdate();
 							System.out.println("here in this in 8 func1");
 							//send notification for cancellation
 						}
@@ -672,10 +639,13 @@ public class HourlyJob implements Runnable{
 					}
 					else if(secondstatus.contentEquals("ongoing"))
 					{
+						String tablename2="slot"+secondslotid;
 						if(secondacceptvotes>seconddeclinevotes)
 						{
 							SQLQuery addquery=session.createSQLQuery("update slot set status='filled' where slotid='"+secondslotid+"'");
 							addquery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename2);
+							deltablequery.executeUpdate();
 							System.out.println("here in this in 10 func1");
 							//send notification for 1 hr
 						}
@@ -683,6 +653,8 @@ public class HourlyJob implements Runnable{
 						{
 							SQLQuery deletequery=session.createSQLQuery("update slot set profid=NULL,status=NULL,subjectid=NULL where slotid='"+secondslotid+"'");
 							deletequery.executeUpdate();
+							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename2);
+							deltablequery.executeUpdate();
 							System.out.println("here in this in 11 func1");
 							//send notification for cancellation
 						}
