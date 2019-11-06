@@ -1,6 +1,9 @@
 package api.rest;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import api.entity.Professor;
 import api.entity.Slot;
 import api.entity.Student;
+import api.entity.slottime;
 import api.entity.Slotinfo;
 
 @RestController
@@ -26,12 +30,33 @@ public class SlotRestController {
 	@GetMapping(path = "/Cancel/{slotid}/{profid}")
 	public String slot_update(@PathVariable String slotid, @PathVariable String profid)
 	{
-		SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Slot.class).buildSessionFactory();
+	
+		Date date=new Date();
+		String CurrentTime;
+		int Currentday;
+		System.out.println("Job trigged by scheduler");
+		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");  
+		System.out.println(formatter.format(date));
+		CurrentTime=formatter.format(date);	
+		Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Currentday=calendar.get(Calendar.DAY_OF_WEEK);
+		SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Slot.class).addAnnotatedClass(slottime.class).buildSessionFactory();
 		Session session=factory.openSession();
 		Slot updatedslot=new Slot();
 		try {
 				Transaction tx=session.beginTransaction();
 			System.out.println("I am saving"+slotid);
+			slottime slotinfo=(slottime) session.get(slottime.class, slotid);
+			if(Currentday==slotinfo.getDay())
+			{
+				System.out.println("day is same");
+				if(CurrentTime.compareTo(slotinfo.getTime())>=0)
+				{
+					System.out.println("you cant cancell class");
+					return "abort";
+				}
+			}
 			SQLQuery cancelslotquery=session.createSQLQuery("select * from slot where slotid='"+slotid+"' and profid='"+profid+"'");
 			cancelslotquery.addEntity(Slot.class);
 			List<Slot> slots=cancelslotquery.list();
@@ -76,6 +101,7 @@ public class SlotRestController {
 					System.out.println("error in updating");
 					return "abort";
 				}
+				//send botifucation for cancellation of slotid class
 				return "success";
 			}
 			
@@ -171,6 +197,70 @@ public class SlotRestController {
 	@GetMapping(path = "/Update/{slotid}/{profid}/{subjectid}")
 	public String update(@PathVariable String slotid, @PathVariable String profid,@PathVariable String subjectid)
 	{
+		Date date=new Date();
+		String CurrentTime;
+		int Currentday;
+		System.out.println("Job trigged by scheduler");
+		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");  
+		System.out.println(formatter.format(date));
+		CurrentTime=formatter.format(date);	
+		Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Currentday=calendar.get(Calendar.DAY_OF_WEEK);
+		SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Slot.class).addAnnotatedClass(Professor.class).addAnnotatedClass(slottime.class).buildSessionFactory();
+		Session session=factory.openSession();
+		try {
+			Transaction tx=session.beginTransaction();
+			System.out.println("hey success");
+			slottime slotinfo=(slottime) session.get(slottime.class, slotid);
+			if(Currentday==slotinfo.getDay())
+			{
+				System.out.println("day is same");
+				if(CurrentTime.compareTo(slotinfo.getTime())>=0)
+				{
+					System.out.println("you cant cancell class");
+					return "notscheduledfortoday";
+				}
+			}
+			SQLQuery checkprofsubjectquery=session.createSQLQuery("select * from profsubject where profid='"+profid+"' and subjectid='"+subjectid+"'");
+			List<Object[]> proflist=checkprofsubjectquery.list(); 
+			if(proflist.size()==0)
+			{
+				System.out.println("here no record for prof and subject");
+				return "invalid";
+			}
+			SQLQuery updateslotquery=session.createSQLQuery("update slot set profid='"+profid+"',status='ongoing',subjectid='"+subjectid+"' where slotid='"+slotid+"'");
+			updateslotquery.executeUpdate();
+			String tablename="slot"+slotid;
+			System.out.println("name of table:"+tablename);
+			SQLQuery createtablequery=session.createSQLQuery("create table "+tablename+"(studentid varchar(255) primary key,vote varchar(255))");
+			createtablequery.executeUpdate();
+			tx.commit();
+			session.close();
+			Session session2=factory.openSession();
+			Transaction tx2=session2.beginTransaction();
+			Slot updatedslot=(Slot) session2.get(Slot.class,slotid);
+			tx2.commit();
+			session2.close();
+			//notification for this week class slotid profid subjectid
+			return "success";
+		}
+		catch(Exception e)
+		{
+			
+			System.out.println("update error");
+			e.printStackTrace();
+			return "invalid";
+		}
+		finally {
+			factory.close();
+			System.out.println("All done");
+		}
+	}
+	
+	@GetMapping(path = "/Updates/{slotid}/{profid}/{subjectid}")
+	public String updates(@PathVariable String slotid, @PathVariable String profid,@PathVariable String subjectid)
+	{
 		SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Slot.class).addAnnotatedClass(Professor.class).buildSessionFactory();
 		Session session=factory.openSession();
 		try {
@@ -196,6 +286,7 @@ public class SlotRestController {
 			Slot updatedslot=(Slot) session2.get(Slot.class,slotid);
 			tx2.commit();
 			session2.close();
+			// notify for schduling class for next week slotid profid subject id
 			return "success";
 		}
 		catch(Exception e)

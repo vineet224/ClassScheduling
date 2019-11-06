@@ -17,7 +17,7 @@ public class Backgroundjob implements ServletContextListener{
 		// TODO Auto-generated method stub
 		 scheduler = Executors.newSingleThreadScheduledExecutor();
 		   // scheduler.scheduleAtFixedRate(new DailyJob(), 0, 1, TimeUnit.DAYS);
-		    scheduler.scheduleAtFixedRate(new HourlyJob(), 0, 1, TimeUnit.SECONDS);
+		    //scheduler.scheduleAtFixedRate(new HourlyJob(), 0, 1, TimeUnit.SECONDS);
 		   //scheduler.scheduleAtFixedRate(new MinJob(), 0, 1, TimeUnit.MINUTES);
 		   // scheduler.scheduleAtFixedRate(new SecJob(), 0, 15, TimeUnit.SECONDS);
 	}
