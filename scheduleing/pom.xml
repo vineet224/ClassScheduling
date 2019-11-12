@@ -20,6 +20,11 @@
     <artifactId>javassist</artifactId>
     <version>3.12.1.GA</version>
 </dependency>
+<dependency>
+  <groupId>org.json</groupId>
+  <artifactId>json</artifactId>
+  <version>20160810</version>
+</dependency>
     <dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -38,6 +43,14 @@
     <artifactId>mysql-connector-java</artifactId>
     <version>8.0.17</version>
 </dependency>
+
+<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <version>1.0.0.RELEASE</version>
+</dependency>
+
     <!-- Add Servlet support for 
 			 Spring's AbstractAnnotationConfigDispatcherServletInitializer -->
 			 <!-- Add Jackson for JSON converters -->

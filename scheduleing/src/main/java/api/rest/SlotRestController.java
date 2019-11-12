@@ -21,6 +21,7 @@ import api.entity.Professor;
 import api.entity.Slot;
 import api.entity.Student;
 import api.entity.slottime;
+import api.thread.sendnoterequest;
 import api.entity.Slotinfo;
 
 @RestController
@@ -86,12 +87,12 @@ public class SlotRestController {
 					}
 					tx.commit();
 					session.close();
-					Session session2=factory.openSession();
-					Transaction tx2=session2.beginTransaction();
-					updatedslot=(Slot) session2.get(Slot.class,slotid);
-					System.out.println("hello slotid:"+updatedslot.getSlotid()+" profid:"+updatedslot.getProfid()+"status:"+updatedslot.getStatus()+"subjectid"+updatedslot.getSubjectid());
-					tx2.commit();
-					session2.close();
+					System.out.println("going to send notify");
+					String studentmessage="slot "+slotid+" of prof "+profid+" is cancelled ";
+					sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+					notifyobject.run();
+					System.out.println("sent notify");
+					
 					System.out.println("here is result value:");
 					
 				} 
@@ -237,6 +238,8 @@ public class SlotRestController {
 			createtablequery.executeUpdate();
 			tx.commit();
 			session.close();
+			String studentmessage="A class on "+slotid+" of prof "+profid+" of subject "+subjectid+" is scheduled ongoing vote ypur decission";
+			
 			Session session2=factory.openSession();
 			Transaction tx2=session2.beginTransaction();
 			Slot updatedslot=(Slot) session2.get(Slot.class,slotid);
@@ -281,6 +284,8 @@ public class SlotRestController {
 			createtablequery.executeUpdate();
 			tx.commit();
 			session.close();
+			String studentmessage="A class on "+slotid+" of prof "+profid+" of subject "+subjectid+" is scheduled in next week ongoing vote ypur decission";
+			
 			Session session2=factory.openSession();
 			Transaction tx2=session2.beginTransaction();
 			Slot updatedslot=(Slot) session2.get(Slot.class,slotid);
