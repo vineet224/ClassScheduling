@@ -31,14 +31,14 @@ public class VoteRestController {
 			{
 				session.getTransaction().commit();
 				session.close();
-				return "alread voted";
+				return "voted";
 			}
 			else {
 				SQLQuery voteinsertquery=session.createSQLQuery("insert into "+tablename+" values('"+studentid+"','"+decission+"')");
 				voteinsertquery.executeUpdate();
 				session.getTransaction().commit();
 				session.close();
-				return "valid";
+				return "success";
 			}
 			
 		}
@@ -46,7 +46,7 @@ public class VoteRestController {
 		{
 			
 			e.printStackTrace();
-			return "error";
+			return "invalid";
 		}
 		finally {
 			factory.close();

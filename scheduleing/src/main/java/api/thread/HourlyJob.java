@@ -28,7 +28,7 @@ public class HourlyJob implements Runnable{
 		String Time5="13:00:00";
 		String Time6="14:00:00";
 		String Time7="15:00:00";
-		String temptime="17:09:10";
+		String temptime="01:53:30";
 		String CurrentTime;
 		int Currentday;
 		System.out.println("Job trigged by scheduler");
@@ -60,64 +60,64 @@ public class HourlyJob implements Runnable{
         	//sunday
         	if(CurrentTime.compareTo(temptime)==0)
         	{
-        		firstslotscheduleing("sun5","sun6");
+        		firstslotscheduleing("sun1","sun2");
         	}
         	if(CurrentTime.compareTo(Time2)==0)
         	{
-        		
+        		secondslotscheduling("sun1", "sun2");
         	}
         	if(CurrentTime.compareTo(Time3)==0)
         	{
-        		
+        		firstslotscheduleing("sun3","sun4");
         	}
         	if(CurrentTime.compareTo(Time4)==0)
         	{
-        		
+        		secondslotscheduling("sun3", "sun4");
         	}
         	if(CurrentTime.compareTo(Time5)==0)
         	{
-        		firstslotscheduleing("sun5","sun6");
+        		fifthslotscheduling("sun5", "sun6", "sun7");
         	}
         	if(CurrentTime.compareTo(Time6)==0)
         	{
-        		
+        		sixthslotscheduling("sun5", "sun6","sun7");
         	}
         	if(CurrentTime.compareTo(Time7)==0)
         	{
-        		
+        		secondslotscheduling("sun6", "sun7");
         	}
         	
         }
         if(Currentday==2)
         {
         	//monday
-        	if(CurrentTime.compareTo(Time1)==0)
+        	if(CurrentTime.compareTo(temptime)==0)
         	{
         		firstslotscheduleing("mon1","mon2");
         	}
         	if(CurrentTime.compareTo(Time2)==0)
         	{
-        		
+        		secondslotscheduling("mon1", "mon2");
         	}
         	if(CurrentTime.compareTo(Time3)==0)
         	{
-        		
+        		firstslotscheduleing("mon3","mon4");
         	}
         	if(CurrentTime.compareTo(Time4)==0)
         	{
-        		
+        		secondslotscheduling("mon3", "mon4");
         	}
         	if(CurrentTime.compareTo(Time5)==0)
         	{
-        		firstslotscheduleing("mon5","mon6");
+        		fifthslotscheduling("mon5", "mon6", "mon7");
         	}
         	if(CurrentTime.compareTo(Time6)==0)
         	{
-        		
+        		sixthslotscheduling("mon5", "mon6","mon7");
         	}
         	if(CurrentTime.compareTo(Time7)==0)
         	{
-        		
+        		secondslotscheduling("mon6", "mon7");
         	}
         }
         if(Currentday==3)
@@ -125,160 +125,159 @@ public class HourlyJob implements Runnable{
         	//tuesday
         	if(CurrentTime.compareTo(temptime)==0)
         	{
-        		System.out.println("going here");
-        		firstslotscheduleing("sun5","sun6");
+        		firstslotscheduleing("tue1","tue2");
         	}
         	if(CurrentTime.compareTo(Time2)==0)
         	{
-        		
+        		secondslotscheduling("tue1", "tue2");
         	}
         	if(CurrentTime.compareTo(Time3)==0)
         	{
-        		
+        		firstslotscheduleing("tue3","tue4");
         	}
         	if(CurrentTime.compareTo(Time4)==0)
         	{
-        		
+        		secondslotscheduling("tue3", "tue4");
         	}
         	if(CurrentTime.compareTo(Time5)==0)
         	{
-        		//firstslotscheduleing("tue5");
+        		fifthslotscheduling("tue5", "tue6", "tue7");
         	}
         	if(CurrentTime.compareTo(Time6)==0)
         	{
-        		
+        		sixthslotscheduling("tue5", "tue6","tue7");
         	}
         	if(CurrentTime.compareTo(Time7)==0)
         	{
-        		
+        		secondslotscheduling("tue6", "tue7");
         	}
         }
         if(Currentday==4)
         {
         	//wednessday
-        	if(CurrentTime.compareTo(Time1)==0)
+        	if(CurrentTime.compareTo(temptime)==0)
         	{
         		firstslotscheduleing("wed1","wed2");
         	}
         	if(CurrentTime.compareTo(Time2)==0)
         	{
-        		
+        		secondslotscheduling("wed1", "wed2");
         	}
         	if(CurrentTime.compareTo(Time3)==0)
         	{
-        		
+        		firstslotscheduleing("wed3","wed4");
         	}
         	if(CurrentTime.compareTo(Time4)==0)
         	{
-        		
+        		secondslotscheduling("wed3", "wed4");
         	}
         	if(CurrentTime.compareTo(Time5)==0)
         	{
-        		//firstslotscheduleing("wed5");
+        		fifthslotscheduling("wed5", "wed6", "wed7");
         	}
         	if(CurrentTime.compareTo(Time6)==0)
         	{
-        		
+        		sixthslotscheduling("wed5", "wed6","wed7");
         	}
         	if(CurrentTime.compareTo(Time7)==0)
         	{
-        		
+        		secondslotscheduling("wed6", "wed7");
         	}
         }
         if(Currentday==5)
         {
         	//thursday
-        	if(CurrentTime.compareTo(Time1)==0)
+        	if(CurrentTime.compareTo(temptime)==0)
         	{
-        		firstslotscheduleing("thu1","thu2");
+        		firstslotscheduleing("wed2","wed1");
         	}
         	if(CurrentTime.compareTo(Time2)==0)
         	{
-        		
+        		secondslotscheduling("thu1", "thu2");
         	}
         	if(CurrentTime.compareTo(Time3)==0)
         	{
-        		
+        		firstslotscheduleing("thu3","thu4");
         	}
         	if(CurrentTime.compareTo(Time4)==0)
         	{
-        		
+        		secondslotscheduling("thu3", "thu4");
         	}
         	if(CurrentTime.compareTo(Time5)==0)
         	{
-        		//firstslotscheduleing("thu5");
+        		fifthslotscheduling("thu5", "thu6", "thu7");
         	}
         	if(CurrentTime.compareTo(Time6)==0)
         	{
-        		
+        		sixthslotscheduling("thu5", "thu6","thu7");
         	}
         	if(CurrentTime.compareTo(Time7)==0)
         	{
-        		
+        		secondslotscheduling("thu6", "thu7");
         	}
         }
         if(Currentday==6)
         {
         	//friday
-        	if(CurrentTime.compareTo(Time1)==0)
+        	if(CurrentTime.compareTo(temptime)==0)
         	{
-        		//firstslotscheduleing("fri1","fri2");
+        		firstslotscheduleing("fri1","fri2");
         	}
         	if(CurrentTime.compareTo(Time2)==0)
         	{
-        		
+        		secondslotscheduling("fri1", "fri2");
         	}
         	if(CurrentTime.compareTo(Time3)==0)
         	{
-        		
+        		firstslotscheduleing("fri3","fri4");
         	}
         	if(CurrentTime.compareTo(Time4)==0)
         	{
-        		
+        		secondslotscheduling("fri3", "fri4");
         	}
         	if(CurrentTime.compareTo(Time5)==0)
         	{
-        		//firstslotscheduleing("fri5");
+        		fifthslotscheduling("fri5", "fri6", "fri7");
         	}
         	if(CurrentTime.compareTo(Time6)==0)
         	{
-        		
+        		sixthslotscheduling("fri5", "fri6","fri7");
         	}
         	if(CurrentTime.compareTo(Time7)==0)
         	{
-        		
+        		secondslotscheduling("fri6", "fri7");
         	}
         }
         if(Currentday==7)
         {
         	//saturday
-        	if(CurrentTime.compareTo(Time1)==0)
+        	if(CurrentTime.compareTo(temptime)==0)
         	{
         		firstslotscheduleing("sat1","sat2");
         	}
         	if(CurrentTime.compareTo(Time2)==0)
         	{
-        		
+        		secondslotscheduling("sat1", "sat2");
         	}
         	if(CurrentTime.compareTo(Time3)==0)
         	{
-        		
+        		firstslotscheduleing("sat3","sat4");
         	}
         	if(CurrentTime.compareTo(Time4)==0)
         	{
-        		
+        		secondslotscheduling("sat3", "sat4");
         	}
         	if(CurrentTime.compareTo(Time5)==0)
         	{
-        		//firstslotscheduleing("sat2");
+        		fifthslotscheduling("sat5", "sat6", "sat7");
         	}
         	if(CurrentTime.compareTo(Time6)==0)
         	{
-        		
+        		sixthslotscheduling("sat5", "sat6","sat7");
         	}
         	if(CurrentTime.compareTo(Time7)==0)
         	{
-        		
+        		secondslotscheduling("sat6", "sat7");
         	}
         }
 		
@@ -344,7 +343,12 @@ public class HourlyJob implements Runnable{
 				{
 					System.out.println("here in this in 1 func1");
 					//send notification of 1 hr class
-	
+					String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+					sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+					notifyobject.run();
+					String instructormessage="your_slot_"+firstslotid+"_is_scheduled_for_1hr";
+					sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+					notifyobject2.run();
 				}
 				else if(firststatus.contentEquals("ongoing"))
 				{
@@ -357,6 +361,12 @@ public class HourlyJob implements Runnable{
 						SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
 						deltablequery.executeUpdate();
 						//send notification of 1 hr class
+						String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						String instructormessage="your_slot_"+firstslotid+"_is_scheduled_for_1hr";
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+						notifyobject2.run();
 					}
 					else
 					{
@@ -366,6 +376,12 @@ public class HourlyJob implements Runnable{
 						SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
 						deltablequery.executeUpdate();
 						//send notification for cancelling ongoing class
+						String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						String instructormessage="your_slot_"+firstslotid+"_is_cancelled_due_to_voting";
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+						notifyobject2.run();
 					}
 				}
 				else
@@ -381,6 +397,12 @@ public class HourlyJob implements Runnable{
 					{
 						System.out.println("here in this in 5 func1");
 						//send notification of 2 hr
+						String studentmessage="slot_"+firstslotid+"_and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_are_scheduled_for_2hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						String instructormessage="your_slot_"+firstslotid+"_and_slot_"+secondslotid+"_are_scheduled_for_2hr";
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+						notifyobject2.run();
 					}
 					else if(firststatus.contentEquals("filled") && secondstatus.contentEquals("ongoing"))
 					{
@@ -393,6 +415,12 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 6 func1");
 							//send notification for 2 hr
+							String studentmessage="slot_"+firstslotid+"_and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_are_scheduled_for_2hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							String instructormessage="your_slot_"+firstslotid+"_and_slot_"+secondslotid+"_are_scheduled_for_2hr";
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+							notifyobject2.run();
 						}
 						else
 						{
@@ -400,6 +428,12 @@ public class HourlyJob implements Runnable{
 							//deletequery.executeUpdate();
 							System.out.println("here in this in 7 func1");
 							//send notification for 1 hr class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							String instructormessage="your_slot_"+firstslotid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+							notifyobject2.run();
 						}
 						
 					}
@@ -414,6 +448,12 @@ public class HourlyJob implements Runnable{
 							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
 							deltablequery.executeUpdate();
 							//send notification of 2 hr class
+							String studentmessage="slot_"+firstslotid+"_and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_are_scheduled_for_2hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							String instructormessage="your_slot_"+firstslotid+"_and_slot_"+secondslotid+"_are_scheduled_for_2hr";
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+							notifyobject2.run();
 						}
 						else
 						{
@@ -423,6 +463,12 @@ public class HourlyJob implements Runnable{
 							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
 							deltablequery.executeUpdate();
 							//send notification for cancelling ongoing class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							String instructormessage="your_slot_"+firstslotid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+							notifyobject2.run();
 						}
 					}
 					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("ongoing"))
@@ -444,6 +490,12 @@ public class HourlyJob implements Runnable{
 								deltablequery2.executeUpdate();
 								System.out.println("here in this in 10 func1");
 								// notification for 2 hr
+								String studentmessage="slot_"+firstslotid+"_and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_are_scheduled_for_2hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								String instructormessage="your_slot_"+firstslotid+"_and_slot_"+secondslotid+"_are_scheduled_for_2hr";
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+								notifyobject2.run();
 							}
 							else
 							{
@@ -451,6 +503,12 @@ public class HourlyJob implements Runnable{
 								//deletequery.executeUpdate();
 								System.out.println("here in this in 11 func1");
 								//notification for 1 hr
+								String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								String instructormessage="your_slot_"+firstslotid+"_is_scheduled_for_1hr";
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+								notifyobject2.run();
 							}
 						}
 						else
@@ -461,6 +519,12 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 12 func1");
 							//send notification for cancelling ongoing class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							String instructormessage="your_slot_"+firstslotid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+							notifyobject2.run();
 						}
 					}
 				}
@@ -470,6 +534,12 @@ public class HourlyJob implements Runnable{
 					{
 						System.out.println("here in this in 13 func1");
 						//send notification of 1 hr class
+						String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						String instructormessage="your_slot_"+firstslotid+"_is_scheduled_for_1hr";
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+						notifyobject2.run();
 					}
 					else if(firststatus.contentEquals("ongoing"))
 					{
@@ -479,6 +549,12 @@ public class HourlyJob implements Runnable{
 							addquery.executeUpdate();
 							System.out.println("here in this in 14 func1");
 							//send notification of 1 hr class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							String instructormessage="your_slot_"+firstslotid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+							notifyobject2.run();
 						}
 						else
 						{
@@ -486,6 +562,12 @@ public class HourlyJob implements Runnable{
 							deletequery.executeUpdate();
 							System.out.println("here in this in 15 func1");
 							//send notification for cancelling ongoing class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							String instructormessage="your_slot_"+firstslotid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+							notifyobject2.run();
 						}
 					}
 					else

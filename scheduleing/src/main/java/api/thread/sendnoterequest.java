@@ -14,16 +14,20 @@ public class sendnoterequest implements Runnable{
 
 	public static HttpURLConnection connection;
 	public String topic;
-	public String message;
+	public String message="";
 	public sendnoterequest(String topic,String message)
 	{
 		this.topic=topic;
 		this.message=message;
 	}
-
 	public void run() {
+		// TODO Auto-generated method stub
 		try {
-			String urlstring="http://192.168.43.242:8080/scheduleing/send/Instructor/fromrunable";
+			String temptopic=this.topic;
+			String tempmsg=this.message;
+			
+			System.out.println("messgae is "+this.message+"topic is "+this.topic);
+			String urlstring="http://192.168.43.242:8080/scheduleing/send/"+temptopic+"/"+tempmsg;
 			URL url=new URL(urlstring);
 			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("172.31.2.4", 8080));
 			Authenticator authenticator = new Authenticator() {

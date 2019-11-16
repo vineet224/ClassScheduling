@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -52,10 +53,21 @@ public class SlotRestController {
 			if(Currentday==slotinfo.getDay())
 			{
 				System.out.println("day is same");
-				if(CurrentTime.compareTo(slotinfo.getTime())>=0)
+				String time1=slotinfo.getTime();
+				String time2="03:00:00";
+				 SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+				    timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+				    Date date1 = timeFormat.parse(time1);
+				    Date date2 = timeFormat.parse(time2);
+				    long sum = date1.getTime() + date2.getTime();
+
+				    String date3 = timeFormat.format(new Date(sum));
+				    System.out.println("The sum is "+ date3);
+				    
+				if(CurrentTime.compareTo(slotinfo.getTime())>=0 && CurrentTime.compareTo(date3)<0)
 				{
-					System.out.println("you cant cancell class");
-					return "abort";
+					System.out.println("you cant cancel class");
+					return "invalid";
 				}
 			}
 			SQLQuery cancelslotquery=session.createSQLQuery("select * from slot where slotid='"+slotid+"' and profid='"+profid+"'");
@@ -66,7 +78,8 @@ public class SlotRestController {
 				System.out.println("no record");
 				tx.commit();
 				session.close();
-				return "abort";
+				System.out.println("here to abort in cancellation where no record");
+				return "invalid";
 			}
 			else
 			{
@@ -88,35 +101,34 @@ public class SlotRestController {
 					tx.commit();
 					session.close();
 					System.out.println("going to send notify");
-					String studentmessage="slot "+slotid+" of prof "+profid+" is cancelled ";
+					String studentmessage="slot_"+slotid+"_of_prof_"+profid+"_is_cancelled_";
 					sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
-					notifyobject.run();
+					Thread thread  =new Thread(notifyobject);
+					thread.run();
 					System.out.println("sent notify");
 					
-					System.out.println("here is result value:");
-					
+					System.out.println("here is result value: return in cancelaltion success");
+					return "success";
 				} 
 				catch(Exception e)
 				{
 					e.printStackTrace();
-					System.out.println("error in updating");
-					return "abort";
+					System.out.println("error in updating cancellation");
+					return "invlaid";
 				}
 				//send botifucation for cancellation of slotid class
-				return "success";
 			}
-			
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 			System.out.println("error in cancellation ");
+			return "invalid";
 		}
 		finally {
 			factory.close();
 			System.out.println("All done");
 		}
-		return "abort";
 	}
 	
 	@GetMapping("/Get")
@@ -212,47 +224,59 @@ public class SlotRestController {
 		Session session=factory.openSession();
 		try {
 			Transaction tx=session.beginTransaction();
-			System.out.println("hey success");
+			System.out.println("hey success in getting in update");
 			slottime slotinfo=(slottime) session.get(slottime.class, slotid);
 			if(Currentday==slotinfo.getDay())
 			{
+				String time1=slotinfo.getTime();
+				String time2="03:00:00";
+				 SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+				    timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+				    Date date1 = timeFormat.parse(time1);
+				    Date date2 = timeFormat.parse(time2);
+				    long sum = date1.getTime() + date2.getTime();
+
+				    String date3 = timeFormat.format(new Date(sum));
+				    System.out.println("The sum is "+ date3);
 				System.out.println("day is same");
-				if(CurrentTime.compareTo(slotinfo.getTime())>=0)
+				if(CurrentTime.compareTo(slotinfo.getTime())>=0 && CurrentTime.compareTo(date3)<0)
 				{
-					System.out.println("you cant cancell class");
-					return "notscheduledfortoday";
+					System.out.println("you cant update class here to return in update return invalid");
+					return "nextweek";
 				}
 			}
 			SQLQuery checkprofsubjectquery=session.createSQLQuery("select * from profsubject where profid='"+profid+"' and subjectid='"+subjectid+"'");
 			List<Object[]> proflist=checkprofsubjectquery.list(); 
 			if(proflist.size()==0)
 			{
-				System.out.println("here no record for prof and subject");
+				System.out.println("here no record for prof and subject in update return invalid");
 				return "invalid";
 			}
 			SQLQuery updateslotquery=session.createSQLQuery("update slot set profid='"+profid+"',status='ongoing',subjectid='"+subjectid+"' where slotid='"+slotid+"'");
 			updateslotquery.executeUpdate();
 			String tablename="slot"+slotid;
-			System.out.println("name of table:"+tablename);
+			System.out.println("creating name of table:"+tablename);
 			SQLQuery createtablequery=session.createSQLQuery("create table "+tablename+"(studentid varchar(255) primary key,vote varchar(255))");
 			createtablequery.executeUpdate();
 			tx.commit();
 			session.close();
-			String studentmessage="A class on "+slotid+" of prof "+profid+" of subject "+subjectid+" is scheduled ongoing vote ypur decission";
+			System.out.println("going to send notify in simple update");
+			String studentmessage="Prof_"+profid+""+"Subject_"+subjectid+""+"Scheduled_on_"+"Slot_"+slotid;
+			sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+			Thread thread  =new Thread(notifyobject);
+			thread.run();
+			System.out.println("notify sent for simple update");
 			
-			Session session2=factory.openSession();
-			Transaction tx2=session2.beginTransaction();
-			Slot updatedslot=(Slot) session2.get(Slot.class,slotid);
-			tx2.commit();
-			session2.close();
 			//notification for this week class slotid profid subjectid
+			System.out.println("here returning success in update");
 			return "success";
 		}
 		catch(Exception e)
 		{
 			
-			System.out.println("update error");
+			System.out.println("update error returning invalid");
 			e.printStackTrace();
+			System.out.println("returning invalid");
 			return "invalid";
 		}
 		finally {
@@ -261,44 +285,46 @@ public class SlotRestController {
 		}
 	}
 	
-	@GetMapping(path = "/Updates/{slotid}/{profid}/{subjectid}")
+	@GetMapping(path = "/Nextupdate/{slotid}/{profid}/{subjectid}")
 	public String updates(@PathVariable String slotid, @PathVariable String profid,@PathVariable String subjectid)
 	{
 		SessionFactory factory= new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Slot.class).addAnnotatedClass(Professor.class).buildSessionFactory();
 		Session session=factory.openSession();
 		try {
 			Transaction tx=session.beginTransaction();
-			System.out.println("hey success");
+			System.out.println("hey success in next update");
 			SQLQuery checkprofsubjectquery=session.createSQLQuery("select * from profsubject where profid='"+profid+"' and subjectid='"+subjectid+"'");
 			List<Object[]> proflist=checkprofsubjectquery.list(); 
 			if(proflist.size()==0)
 			{
-				System.out.println("here no record for prof and subject");
+				System.out.println("here no record for prof and subject in next update return");
 				return "invalid";
 			}
 			SQLQuery updateslotquery=session.createSQLQuery("update slot set profid='"+profid+"',status='ongoing',subjectid='"+subjectid+"' where slotid='"+slotid+"'");
 			updateslotquery.executeUpdate();
 			String tablename="slot"+slotid;
 			System.out.println("name of table:"+tablename);
+			System.out.println("now creating table for tablename in next update");
 			SQLQuery createtablequery=session.createSQLQuery("create table "+tablename+"(studentid varchar(255) primary key,vote varchar(255))");
 			createtablequery.executeUpdate();
 			tx.commit();
 			session.close();
-			String studentmessage="A class on "+slotid+" of prof "+profid+" of subject "+subjectid+" is scheduled in next week ongoing vote ypur decission";
-			
-			Session session2=factory.openSession();
-			Transaction tx2=session2.beginTransaction();
-			Slot updatedslot=(Slot) session2.get(Slot.class,slotid);
-			tx2.commit();
-			session2.close();
+			System.out.println("sending notify for next update");
+			String studentmessage="Prof:"+profid+"\n"+"Subject:"+subjectid+"\n"+"Scheduled on:\n"+"Slot:"+slotid;
+			sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+			Thread thread  =new Thread(notifyobject);
+			thread.run();
+			System.out.println("sent notify for next update");
 			// notify for schduling class for next week slotid profid subject id
+			System.out.println("returning in next update with success");
 			return "success";
 		}
 		catch(Exception e)
 		{
 			
-			System.out.println("update error");
+			System.out.println("next update error");
 			e.printStackTrace();
+			System.out.println("returning in next update");
 			return "invalid";
 		}
 		finally {
