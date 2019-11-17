@@ -226,7 +226,7 @@ public class SlotRestController {
 			Transaction tx=session.beginTransaction();
 			System.out.println("hey success in getting in update");
 			slottime slotinfo=(slottime) session.get(slottime.class, slotid);
-			if(Currentday==slotinfo.getDay())
+			if(slotinfo.getDay()==Currentday)
 			{
 				String time1=slotinfo.getTime();
 				String time2="03:00:00";
@@ -310,7 +310,7 @@ public class SlotRestController {
 			tx.commit();
 			session.close();
 			System.out.println("sending notify for next update");
-			String studentmessage="Prof:"+profid+"\n"+"Subject:"+subjectid+"\n"+"Scheduled on:\n"+"Slot:"+slotid;
+			String studentmessage="Prof_"+profid+"_"+"Subject_"+subjectid+"_"+"Scheduled_on_"+"Slot"+slotid;
 			sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 			Thread thread  =new Thread(notifyobject);
 			thread.run();

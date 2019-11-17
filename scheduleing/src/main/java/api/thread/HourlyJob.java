@@ -28,7 +28,7 @@ public class HourlyJob implements Runnable{
 		String Time5="13:00:00";
 		String Time6="14:00:00";
 		String Time7="15:00:00";
-		String temptime="01:53:30";
+		String temptime="22:20:30";
 		String CurrentTime;
 		int Currentday;
 		System.out.println("Job trigged by scheduler");
@@ -58,7 +58,7 @@ public class HourlyJob implements Runnable{
         if(Currentday==1)
         {
         	//sunday
-        	if(CurrentTime.compareTo(temptime)==0)
+        	if(CurrentTime.compareTo(Time1)==0)
         	{
         		firstslotscheduleing("sun1","sun2");
         	}
@@ -91,7 +91,7 @@ public class HourlyJob implements Runnable{
         if(Currentday==2)
         {
         	//monday
-        	if(CurrentTime.compareTo(temptime)==0)
+        	if(CurrentTime.compareTo(Time1)==0)
         	{
         		firstslotscheduleing("mon1","mon2");
         	}
@@ -123,7 +123,7 @@ public class HourlyJob implements Runnable{
         if(Currentday==3)
         {
         	//tuesday
-        	if(CurrentTime.compareTo(temptime)==0)
+        	if(CurrentTime.compareTo(Time1)==0)
         	{
         		firstslotscheduleing("tue1","tue2");
         	}
@@ -155,7 +155,7 @@ public class HourlyJob implements Runnable{
         if(Currentday==4)
         {
         	//wednessday
-        	if(CurrentTime.compareTo(temptime)==0)
+        	if(CurrentTime.compareTo(Time1)==0)
         	{
         		firstslotscheduleing("wed1","wed2");
         	}
@@ -187,9 +187,9 @@ public class HourlyJob implements Runnable{
         if(Currentday==5)
         {
         	//thursday
-        	if(CurrentTime.compareTo(temptime)==0)
+        	if(CurrentTime.compareTo(Time1)==0)
         	{
-        		firstslotscheduleing("wed2","wed1");
+        		firstslotscheduleing("thu2","thu1");
         	}
         	if(CurrentTime.compareTo(Time2)==0)
         	{
@@ -219,7 +219,7 @@ public class HourlyJob implements Runnable{
         if(Currentday==6)
         {
         	//friday
-        	if(CurrentTime.compareTo(temptime)==0)
+        	if(CurrentTime.compareTo(Time1)==0)
         	{
         		firstslotscheduleing("fri1","fri2");
         	}
@@ -251,7 +251,7 @@ public class HourlyJob implements Runnable{
         if(Currentday==7)
         {
         	//saturday
-        	if(CurrentTime.compareTo(temptime)==0)
+        	if(CurrentTime.compareTo(Time1)==0)
         	{
         		firstslotscheduleing("sat1","sat2");
         	}
@@ -346,8 +346,8 @@ public class HourlyJob implements Runnable{
 					String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
 					sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 					notifyobject.run();
-					String instructormessage="your_slot_"+firstslotid+"_is_scheduled_for_1hr";
-					sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+					String instructormessage="slot_"+firstslotid+"_is_scheduled_for_1hr_by_prof_"+firstprofid;
+					sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
 					notifyobject2.run();
 				}
 				else if(firststatus.contentEquals("ongoing"))
@@ -365,7 +365,7 @@ public class HourlyJob implements Runnable{
 						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 						notifyobject.run();
 						String instructormessage="your_slot_"+firstslotid+"_is_scheduled_for_1hr";
-						sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
 						notifyobject2.run();
 					}
 					else
@@ -380,7 +380,7 @@ public class HourlyJob implements Runnable{
 						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 						notifyobject.run();
 						String instructormessage="your_slot_"+firstslotid+"_is_cancelled_due_to_voting";
-						sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
 						notifyobject2.run();
 					}
 				}
@@ -401,7 +401,7 @@ public class HourlyJob implements Runnable{
 						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 						notifyobject.run();
 						String instructormessage="your_slot_"+firstslotid+"_and_slot_"+secondslotid+"_are_scheduled_for_2hr";
-						sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
 						notifyobject2.run();
 					}
 					else if(firststatus.contentEquals("filled") && secondstatus.contentEquals("ongoing"))
@@ -419,7 +419,7 @@ public class HourlyJob implements Runnable{
 							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 							notifyobject.run();
 							String instructormessage="your_slot_"+firstslotid+"_and_slot_"+secondslotid+"_are_scheduled_for_2hr";
-							sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
 							notifyobject2.run();
 						}
 						else
@@ -432,7 +432,7 @@ public class HourlyJob implements Runnable{
 							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 							notifyobject.run();
 							String instructormessage="your_slot_"+firstslotid+"_is_scheduled_for_1hr";
-							sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
 							notifyobject2.run();
 						}
 						
@@ -452,7 +452,7 @@ public class HourlyJob implements Runnable{
 							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 							notifyobject.run();
 							String instructormessage="your_slot_"+firstslotid+"_and_slot_"+secondslotid+"_are_scheduled_for_2hr";
-							sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
 							notifyobject2.run();
 						}
 						else
@@ -467,7 +467,7 @@ public class HourlyJob implements Runnable{
 							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 							notifyobject.run();
 							String instructormessage="your_slot_"+firstslotid+"_is_cancelled_due_to_voting";
-							sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
 							notifyobject2.run();
 						}
 					}
@@ -494,7 +494,7 @@ public class HourlyJob implements Runnable{
 								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 								notifyobject.run();
 								String instructormessage="your_slot_"+firstslotid+"_and_slot_"+secondslotid+"_are_scheduled_for_2hr";
-								sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
 								notifyobject2.run();
 							}
 							else
@@ -507,7 +507,7 @@ public class HourlyJob implements Runnable{
 								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 								notifyobject.run();
 								String instructormessage="your_slot_"+firstslotid+"_is_scheduled_for_1hr";
-								sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
 								notifyobject2.run();
 							}
 						}
@@ -523,7 +523,7 @@ public class HourlyJob implements Runnable{
 							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 							notifyobject.run();
 							String instructormessage="your_slot_"+firstslotid+"_is_cancelled_due_to_voting";
-							sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
 							notifyobject2.run();
 						}
 					}
@@ -538,7 +538,7 @@ public class HourlyJob implements Runnable{
 						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 						notifyobject.run();
 						String instructormessage="your_slot_"+firstslotid+"_is_scheduled_for_1hr";
-						sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
 						notifyobject2.run();
 					}
 					else if(firststatus.contentEquals("ongoing"))
@@ -553,7 +553,7 @@ public class HourlyJob implements Runnable{
 							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 							notifyobject.run();
 							String instructormessage="your_slot_"+firstslotid+"_is_scheduled_for_1hr";
-							sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
 							notifyobject2.run();
 						}
 						else
@@ -566,7 +566,7 @@ public class HourlyJob implements Runnable{
 							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
 							notifyobject.run();
 							String instructormessage="your_slot_"+firstslotid+"_is_cancelled_due_to_voting";
-							sendnoterequest notifyobject2=new sendnoterequest("Instructor",instructormessage);
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
 							notifyobject2.run();
 						}
 					}
@@ -647,6 +647,12 @@ public class HourlyJob implements Runnable{
 				{
 					System.out.println("here in this in 2 func1");
 					//send notification of 1 hr
+					String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+					sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+					notifyobject.run();
+					String instructormessage="your_slot_"+secondslotid+"_is_scheduled_for_1hr";
+					sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+					notifyobject2.run();
 				}
 				else if(secondstatus.contentEquals("ongoing"))
 				{
@@ -659,6 +665,11 @@ public class HourlyJob implements Runnable{
 						deltablequery.executeUpdate();
 						System.out.println("here in this in 3 func1");
 						//send notification for 1 hr
+						String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
 					}
 					else
 					{
@@ -668,6 +679,11 @@ public class HourlyJob implements Runnable{
 						deltablequery.executeUpdate();
 						System.out.println("here in this in 4 func1");
 						//send notification for cancellation
+						String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
 					}
 				}
 				else
@@ -695,6 +711,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 7 func1");
 							//send notification for 1 hr
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
@@ -704,6 +725,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 8 func1");
 							//send notification for cancellation
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else
@@ -718,6 +744,11 @@ public class HourlyJob implements Runnable{
 					{
 						System.out.println("here in this in 9 func1");
 						//send notification of 1 hr
+						String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
 					}
 					else if(secondstatus.contentEquals("ongoing"))
 					{
@@ -730,6 +761,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 10 func1");
 							//send notification for 1 hr
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
@@ -739,6 +775,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 11 func1");
 							//send notification for cancellation
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else
@@ -842,6 +883,11 @@ public class HourlyJob implements Runnable{
 				{
 					System.out.println("here in this in 1 func3");
 					// send notification of 1 hr
+					String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+					sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+					notifyobject.run();
+					sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+					notifyobject2.run();
 				}
 				else if(firststatus.contentEquals("ongoing"))
 				{
@@ -854,6 +900,11 @@ public class HourlyJob implements Runnable{
 						deltablequery.executeUpdate();
 						System.out.println("here in this in 2 func1");
 						//send notification of 1 hr class
+						String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
 					}
 					else
 					{
@@ -863,6 +914,11 @@ public class HourlyJob implements Runnable{
 						deltablequery.executeUpdate();
 						System.out.println("here in this in 3 func1");
 						//send notification for cancelling ongoing class
+						String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
 					}
 				}
 				else
@@ -877,6 +933,11 @@ public class HourlyJob implements Runnable{
 					if(firststatus.contentEquals("filled") && secondstatus.contentEquals("filled"))
 					{
 						//second notification for 2 hrs
+						String studentmessage="slot_"+firstslotid+"and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_2hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
 					}
 					else if(firststatus.contentEquals("filled") && secondstatus.contentEquals("ongoing"))
 					{
@@ -889,11 +950,21 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 6 func1");
 							//send notification for 2 hr
+							String studentmessage="slot_"+firstslotid+"and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_2hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
 							System.out.println("here in this in 7 func1");
 							//send notification for 1 hr class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("filled"))
@@ -907,6 +978,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 8 func1");
 							//send notification of 2 hr class
+							String studentmessage="slot_"+firstslotid+"and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_2hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
@@ -916,6 +992,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 9 func1");
 							//send notification for cancelling ongoing class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("ongoing"))
@@ -936,11 +1017,21 @@ public class HourlyJob implements Runnable{
 								deltablequery2.executeUpdate();
 								System.out.println("here in this in 10 func1");
 								// notification for 2 hr
+								String studentmessage="slot_"+firstslotid+"and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_2hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
 							}
 							else
 							{
 								System.out.println("here in this in 11 func1");
 								//notification for 1 hr
+								String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
 							}
 						}
 						else
@@ -951,6 +1042,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 12 func1");
 							//send notification for cancelling ongoing class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else
@@ -964,6 +1060,11 @@ public class HourlyJob implements Runnable{
 					{
 						System.out.println("here in this in 1 func3");
 						// send notification of 1 hr
+						String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
 					}
 					else if(firststatus.contentEquals("ongoing"))
 					{
@@ -976,6 +1077,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 2 func1");
 							//send notification of 1 hr class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
@@ -985,6 +1091,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 3 func1");
 							//send notification for cancelling ongoing class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else
@@ -1000,6 +1111,11 @@ public class HourlyJob implements Runnable{
 					if(firststatus.contentEquals("filled") && secondstatus.contentEquals("filled") && thirdstatus.contentEquals("filled"))
 					{
 						//send notificatio for 3 hr
+						String studentmessage="slots_"+firstslotid+"_and_"+secondslotid+"_and_"+thirdslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_3hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
 					}
 					else if(firststatus.contentEquals("filled") && secondstatus.contentEquals("filled") && thirdstatus.contentEquals("ongoing"))
 					{
@@ -1012,11 +1128,21 @@ public class HourlyJob implements Runnable{
 							deltablequery2.executeUpdate();
 							System.out.println("here in this in 10 func1");
 							// notification for 3 hr
+							String studentmessage="slots_"+firstslotid+"_and_"+secondslotid+"_and_"+thirdslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_3hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
 							System.out.println("here in this in 11 func1");
 							//notification for 2 hr
+							String studentmessage="slot_"+firstslotid+"and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_2hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else if(firststatus.contentEquals("filled") && secondstatus.contentEquals("ongoing") && thirdstatus.contentEquals("filled"))
@@ -1030,11 +1156,21 @@ public class HourlyJob implements Runnable{
 							deltablequery2.executeUpdate();
 							System.out.println("here in this in 10 func1");
 							// notification for 3 hr
+							String studentmessage="slots_"+firstslotid+"_and_"+secondslotid+"_and_"+thirdslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_3hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
 							System.out.println("here in this in 11 func1");
 							//notification for 1 hr
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else if(firststatus.contentEquals("filled") && secondstatus.contentEquals("ongoing") && thirdstatus.contentEquals("ongoing"))
@@ -1054,15 +1190,30 @@ public class HourlyJob implements Runnable{
 								SQLQuery deltablequery3=session.createSQLQuery("drop table "+tablename3);
 								deltablequery3.executeUpdate();
 								//send notification for 3 hr 
+								String studentmessage="slots_"+firstslotid+"_and_"+secondslotid+"_and_"+thirdslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_3hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
 							}
 							else
 							{
 								//send notification for 2 hr f s
+								String studentmessage="slot_"+firstslotid+"and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_2hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
 							}
 						}
 						else
 						{
 							//notfification for 1 hr
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("filled") && thirdstatus.contentEquals("filled"))
@@ -1075,6 +1226,11 @@ public class HourlyJob implements Runnable{
 							SQLQuery deltablequery1=session.createSQLQuery("drop table "+tablename1);
 							deltablequery1.executeUpdate();
 							//notification for 3 hr class
+							String studentmessage="slots_"+firstslotid+"_and_"+secondslotid+"_and_"+thirdslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_3hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
@@ -1083,6 +1239,11 @@ public class HourlyJob implements Runnable{
 							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
 							deltablequery.executeUpdate();
 							//notifiaction for cancelling class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("filled") && thirdstatus.contentEquals("ongoing"))
@@ -1102,10 +1263,20 @@ public class HourlyJob implements Runnable{
 								SQLQuery deltablequery2=session.createSQLQuery("drop table "+tablename3);
 								deltablequery2.executeUpdate();
 								//send notification for 3 hr
+								String studentmessage="slots_"+firstslotid+"_and_"+secondslotid+"_and_"+thirdslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_3hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
 							}
 							else
 							{
 								//send notify for 2 hr f s
+								String studentmessage="slot_"+firstslotid+"and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_2hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
 							}
 						}
 						else
@@ -1115,6 +1286,11 @@ public class HourlyJob implements Runnable{
 							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
 							deltablequery.executeUpdate();
 							//notifiaction for cancelling class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("ongoing") && thirdstatus.contentEquals("filled"))
@@ -1129,15 +1305,25 @@ public class HourlyJob implements Runnable{
 							if(secondacceptvotes>seconddeclinevotes)
 							{
 								String tablename2="slot"+secondslotid;
-								SQLQuery addquery2=session.createSQLQuery("update slot set status='filled' where slotid='"+firstslotid+"'");
+								SQLQuery addquery2=session.createSQLQuery("update slot set status='filled' where slotid='"+secondslotid+"'");
 								addquery2.executeUpdate();
 								SQLQuery deltablequery2=session.createSQLQuery("drop table "+tablename2);
 								deltablequery2.executeUpdate();
 								//send notify for 3 hr
+								String studentmessage="slots_"+firstslotid+"_and_"+secondslotid+"_and_"+thirdslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_3hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
 							}
 							else
 							{
 								// send notify for 1 hr
+								String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
 							}
 						}
 						else
@@ -1147,6 +1333,11 @@ public class HourlyJob implements Runnable{
 							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
 							deltablequery.executeUpdate();
 							//notifiaction for cancelling class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("ongoing") && thirdstatus.contentEquals("ongoing"))
@@ -1172,15 +1363,31 @@ public class HourlyJob implements Runnable{
 									addquery3.executeUpdate();
 									SQLQuery deltablequery3=session.createSQLQuery("drop table "+tablename3);
 									deltablequery3.executeUpdate();
+									//notify for 3 hr
+									String studentmessage="slots_"+firstslotid+"_and_"+secondslotid+"_and_"+thirdslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_3hr";
+									sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+									notifyobject.run();
+									sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+									notifyobject2.run();
 								}
 								else
 								{
 									//notify for 2 hr
+									String studentmessage="slot_"+firstslotid+"and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_2hr";
+									sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+									notifyobject.run();
+									sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+									notifyobject2.run();
 								}
 							}
 							else
 							{
 								//notify for 1 hr
+								String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
 							}
 						}
 						else
@@ -1190,6 +1397,11 @@ public class HourlyJob implements Runnable{
 							SQLQuery deltablequery=session.createSQLQuery("drop table "+tablename1);
 							deltablequery.executeUpdate();
 							//notifiaction for cancelling class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else
@@ -1202,6 +1414,11 @@ public class HourlyJob implements Runnable{
 					if(firststatus.contentEquals("filled") && secondstatus.contentEquals("filled"))
 					{
 						//second notification for 2 hrs
+						String studentmessage="slot_"+firstslotid+"and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_2hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
 					}
 					else if(firststatus.contentEquals("filled") && secondstatus.contentEquals("ongoing"))
 					{
@@ -1214,11 +1431,21 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 6 func1");
 							//send notification for 2 hr
+							String studentmessage="slot_"+firstslotid+"and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_2hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
 							System.out.println("here in this in 7 func1");
 							//send notification for 1 hr class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("filled"))
@@ -1232,6 +1459,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 8 func1");
 							//send notification of 2 hr class
+							String studentmessage="slot_"+firstslotid+"and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_2hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
@@ -1241,6 +1473,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 9 func1");
 							//send notification for cancelling ongoing class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else if(firststatus.contentEquals("ongoing") && secondstatus.contentEquals("ongoing"))
@@ -1258,14 +1495,24 @@ public class HourlyJob implements Runnable{
 								SQLQuery addquery2=session.createSQLQuery("update slot set status='filled' where slotid='"+secondslotid+"'");
 								addquery2.executeUpdate();
 								SQLQuery deltablequery2=session.createSQLQuery("drop table "+tablename2);
-								deltablequery.executeUpdate();
+								deltablequery2.executeUpdate();
 								System.out.println("here in this in 10 func1");
 								// notification for 2 hr
+								String studentmessage="slot_"+firstslotid+"and_slot_"+secondslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_2hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
 							}
 							else
 							{
 								System.out.println("here in this in 11 func1");
 								//notification for 1 hr
+								String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
 							}
 						}
 						else
@@ -1276,6 +1523,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 12 func1");
 							//send notification for cancelling ongoing class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else
@@ -1289,6 +1541,11 @@ public class HourlyJob implements Runnable{
 					{
 						System.out.println("here in this in 1 func3");
 						// send notification of 1 hr
+						String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
 					}
 					else if(firststatus.contentEquals("ongoing"))
 					{
@@ -1301,6 +1558,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 2 func1");
 							//send notification of 1 hr class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
@@ -1310,6 +1572,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 3 func1");
 							//send notification for cancelling ongoing class
+							String studentmessage="slot_"+firstslotid+"_of_prof_"+firstprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else
@@ -1417,6 +1684,12 @@ public class HourlyJob implements Runnable{
 				{
 					System.out.println("here in this in 2 func4");
 					//send notification of 1 hr
+					String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+					sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+					notifyobject.run();
+					sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+					notifyobject2.run();
+
 				}
 				else if(secondstatus.contentEquals("ongoing"))
 				{
@@ -1429,6 +1702,12 @@ public class HourlyJob implements Runnable{
 						deltablequery.executeUpdate();
 						System.out.println("here in this in 3 func1");
 						//send notification for 1 hr
+						String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
+
 					}
 					else
 					{
@@ -1438,6 +1717,11 @@ public class HourlyJob implements Runnable{
 						deltablequery.executeUpdate();
 						System.out.println("here in this in 4 func1");
 						//send notification for cancellation
+						String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
 					}
 				}
 				else
@@ -1464,6 +1748,12 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 3 func1");
 							//send notification for 1 hr
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
+
 						}
 						else
 						{
@@ -1473,6 +1763,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 4 func1");
 							//send notification for cancellation
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else
@@ -1486,6 +1781,12 @@ public class HourlyJob implements Runnable{
 					{
 						System.out.println("here in this in 2 func4");
 						//send notification of 1 hr
+						String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
+
 					}
 					else if(secondstatus.contentEquals("ongoing"))
 					{
@@ -1498,6 +1799,12 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 3 func1");
 							//send notification for 1 hr
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
+
 						}
 						else
 						{
@@ -1507,6 +1814,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 4 func1");
 							//send notification for cancellation
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else
@@ -1522,6 +1834,11 @@ public class HourlyJob implements Runnable{
 					if(secondstatus.contentEquals("filled") && thirdstatus.contentEquals("filled"))
 					{
 						//notify for 2 hr s t 
+						String studentmessage="slot_"+secondslotid+"and_slot_"+thirdslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_2hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
 					}
 					else if(secondstatus.contentEquals("filled") && thirdstatus.contentEquals("ongoing"))
 					{
@@ -1534,10 +1851,21 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 3 func1");
 							// notify for 2 hr
+							String studentmessage="slot_"+secondslotid+"and_slot_"+thirdslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_2hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
 							/// notify for 1 hr
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
+
 						}
 					}
 					else if(secondstatus.contentEquals("ongoing") && thirdstatus.contentEquals("filled"))
@@ -1551,6 +1879,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 3 func1");
 							//send notification for 2 hr
+							String studentmessage="slot_"+secondslotid+"and_slot_"+thirdslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_2hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
@@ -1560,6 +1893,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 4 func1");
 							//send notification for cancellation
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else if(secondstatus.contentEquals("ongoing") && thirdstatus.contentEquals("ongoing"))
@@ -1581,10 +1919,21 @@ public class HourlyJob implements Runnable{
 								deltablequery3.executeUpdate();
 								System.out.println("here in this in 3 func1");
 								// notify for 2 hr
+								String studentmessage="slot_"+secondslotid+"and_slot_"+thirdslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_2hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
 							}
 							else
 							{
 								/// notify for 1 hr
+								String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
+
 							}
 						}
 						else
@@ -1595,6 +1944,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 4 func1");
 							//send notification for cancellation
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else
@@ -1608,6 +1962,12 @@ public class HourlyJob implements Runnable{
 					{
 						System.out.println("here in this in 2 func4");
 						//send notification of 1 hr
+						String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
+
 					}
 					else if(secondstatus.contentEquals("ongoing"))
 					{
@@ -1620,6 +1980,12 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 3 func1");
 							//send notification for 1 hr
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
+
 						}
 						else
 						{
@@ -1629,6 +1995,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 4 func1");
 							//send notification for cancellation
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else
@@ -1660,6 +2031,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 3 func1");
 							//send notification for 2 hr
+							String studentmessage="slot_"+secondslotid+"and_slot_"+thirdslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_2hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
@@ -1669,6 +2045,12 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 4 func1");
 							//send notification for cancellation
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
+							
 						}
 					}
 					else if(firststatus.contentEquals("filled") && secondstatus.contentEquals("ongoing") && thirdstatus.contentEquals("ongoing"))
@@ -1690,10 +2072,21 @@ public class HourlyJob implements Runnable{
 								deltablequery3.executeUpdate();
 								System.out.println("here in this in 3 func1");
 								// notify for 2 hr
+								String studentmessage="slot_"+secondslotid+"and_slot_"+thirdslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_2hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
 							}
 							else
 							{
 								/// notify for 1 hr
+								String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
+
 							}
 						}
 						else
@@ -1704,6 +2097,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 4 func1");
 							//send notification for cancellation
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else
@@ -1728,6 +2126,12 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 3 func1");
 							//send notification for 1 hr
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
+
 						}
 						else
 						{
@@ -1737,6 +2141,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 4 func1");
 							//send notification for cancellation
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else
@@ -1749,6 +2158,11 @@ public class HourlyJob implements Runnable{
 					if(secondstatus.contentEquals("filled") && thirdstatus.contentEquals("filled"))
 					{
 						//notify for 2 hr s t 
+						String studentmessage="slot_"+secondslotid+"and_slot_"+thirdslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_2hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
 					}
 					else if(secondstatus.contentEquals("filled") && thirdstatus.contentEquals("ongoing"))
 					{
@@ -1761,10 +2175,21 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 3 func1");
 							// notify for 2 hr
+							String studentmessage="slot_"+secondslotid+"and_slot_"+thirdslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_2hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
 							/// notify for 1 hr
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
+
 						}
 					}
 					else if(secondstatus.contentEquals("ongoing") && thirdstatus.contentEquals("filled"))
@@ -1778,6 +2203,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 3 func1");
 							//send notification for 2 hr
+							String studentmessage="slot_"+secondslotid+"and_slot_"+thirdslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_2hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 						else
 						{
@@ -1787,6 +2217,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 4 func1");
 							//send notification for cancellation
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else if(secondstatus.contentEquals("ongoing") && thirdstatus.contentEquals("ongoing"))
@@ -1808,10 +2243,21 @@ public class HourlyJob implements Runnable{
 								deltablequery3.executeUpdate();
 								System.out.println("here in this in 3 func1");
 								// notify for 2 hr
+								String studentmessage="slot_"+secondslotid+"and_slot_"+thirdslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_2hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
 							}
 							else
 							{
 								/// notify for 1 hr
+								String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+								sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+								notifyobject.run();
+								sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+								notifyobject2.run();
+
 							}
 						}
 						else
@@ -1822,6 +2268,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 4 func1");
 							//send notification for cancellation
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else
@@ -1836,6 +2287,12 @@ public class HourlyJob implements Runnable{
 					{
 						System.out.println("here in this in 2 func4");
 						//send notification of 1 hr
+						String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+						sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+						notifyobject.run();
+						sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+						notifyobject2.run();
+
 					}
 					else if(secondstatus.contentEquals("ongoing"))
 					{
@@ -1848,6 +2305,12 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 3 func1");
 							//send notification for 1 hr
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_scheduled_for_1hr";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
+
 						}
 						else
 						{
@@ -1857,6 +2320,11 @@ public class HourlyJob implements Runnable{
 							deltablequery.executeUpdate();
 							System.out.println("here in this in 4 func1");
 							//send notification for cancellation
+							String studentmessage="slot_"+secondslotid+"_of_prof_"+secondprofid+"_is_cancelled_due_to_voting";
+							sendnoterequest notifyobject=new sendnoterequest("Student",studentmessage);
+							notifyobject.run();
+							sendnoterequest notifyobject2=new sendnoterequest("Instructor",studentmessage);
+							notifyobject2.run();
 						}
 					}
 					else

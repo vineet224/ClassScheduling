@@ -34,11 +34,11 @@ public class Notificationcontroller {
 		    body.put("priority", "high");
 		 
 		    JSONObject notification = new JSONObject();
-		    notification.put("title", "JSA Notification");
+		    notification.put("title", "Class Schedular");
 		    notification.put("body", message);
 		    
 		    JSONObject data = new JSONObject();
-		    data.put("Key-1", "JSA Data 1");
+		    data.put("note", message);
 		    data.put("Key-2", "JSA Data 2");
 		 
 		    body.put("notification", notification);
